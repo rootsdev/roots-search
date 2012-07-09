@@ -5,8 +5,8 @@
     "run_at": "document_end",
 		"css": [ "fsTreeSearch.css" ]
   } ],
-  "description": "In the ancestor view, add search links to popular genealogy search engines with the names, places, and dates for the ancestor automatically filled in. Automatically fill in the title and citation of records when the url is added.",
+  "description": "In the ancestor view, add search links to popular genealogy search engines with the names, places, and dates for the ancestor automatically filled in.",
   "name": "FamilySearch Family Tree Enhancements",
   "permissions": [ "https://familysearch.org/*", "https://www.familysearch.org/*" ],
-  "version": "0.3"
+  "version": "0.4"
 }

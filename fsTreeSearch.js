@@ -1,5 +1,3 @@
-// Getting the action search results list is not going to be trivial
-
 var searchGadget;
 var searchGadgetRecordList;
 var searchGadgetFSLink;
@@ -9,43 +7,8 @@ var searchGadgetLinkWrap;
 $(document).ready(function(){  
   if ( window.location.pathname == '/tree/' ) {
     buildSearchWidget();
-  } else if ( window.location.pathname.indexOf('/links-gadget/linkpage.jsp') == 0 && window.location.hash == "#asp" ) {
-    buildSourceAutoFill();
   }
 });
-
-/**
- * Automatically fill in the title and citation of
- * a record when the url is filled in.
- */
-function buildSourceAutoFill() {
-  // Bind to the change event because that's is the only
-  // reliable to check the value. If we bind to key events
-  // we will fire off too many useless AJAX calls
-  $("#ces_urlText").on("change",function(){
-    var url = $(this).val();
-    // Process FamilySearch record urls
-    if( url.indexOf( 'familysearch.org/pal:/' ) != -1 ) {
-      // Show spinner
-      var loader = $('<img id="recordLoadSpinner" src="https://familysearch.org/gadgetrepo/org/familysearch/gadget/gadget-core/1.x/shared/images/spinnerOnWhite.gif" />').appendTo("#ces_urlTitle");
-      $.get(url,function(html) {
-        var sourcePage = $(html);
-        // Get title if it hasn't already been specified
-        if($("#ces_sourceTitleText").val().indexOf('Example: ') == 0) {
-          $("#ces_sourceTitleText").val($("#collection-title",sourcePage).text()).focus();
-        }
-        // Get citation if it hasn't already been specified
-        if($("#ces_citationText").val().indexOf('Example: ') == 0) {
-          $("#ces_citationText").val($("#citation p", sourcePage).text()).focus();
-        }
-        // Move focus to notes field
-        $("#ces_citationInfoText").focus();
-        // Hide spinner
-        loader.hide();
-      });
-    }
-  });
-}
 
 function buildSearchWidget() {
   // Create widget
