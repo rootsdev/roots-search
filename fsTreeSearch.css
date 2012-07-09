@@ -1,0 +1,8 @@
+/* record search gadget */
+#recordSearchGadget { min-height: 4em; margin-bottom: 1em; }
+#searchLinkWrap { margin-top: 1em; }
+#searchLinkWrap a { display: block; }
+#searchLinkSpinner { display: block; width: 16px; margin-top: .5em; }
+
+/* record auto-fill gadget */
+#recordLoadSpinner { float: right; }
