@@ -12,12 +12,12 @@
     
     // Birth
     query = addQueryParam(query, 'bp', summary.data.birthConclusion.details.place.normalizedText);
-    query = addQueryParam(query, 'bd', summary.data.birthConclusion.details.date.normalizedText);
+    query = addQueryParam(query, 'bd', convertDate(summary.data.birthConclusion.details.date.normalizedText));
     query = addQueryParam(query, 'br', 5);
     
     // Death
     query = addQueryParam(query, 'dp', summary.data.deathConclusion.details.place.normalizedText);
-    query = addQueryParam(query, 'dd', summary.data.deathConclusion.details.date.normalizedText);
+    query = addQueryParam(query, 'dd', convertDate(summary.data.deathConclusion.details.date.normalizedText));
     query = addQueryParam(query, 'dr', 5);
     
     // Process parents
@@ -57,6 +57,11 @@
       query += '&' + queryParam + '=' + encodeURIComponent(paramValue)
     }	
     return query;
+  }
+  
+  function convertDate(date) {
+    var date = new Date(date);
+    return [date.getDate(), date.getShortMonthName(), date.getFullYear()].join(' ');
   }
 
 }(fsTreeSearch));

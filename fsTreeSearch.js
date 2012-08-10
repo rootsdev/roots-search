@@ -1,4 +1,7 @@
+// fsTreeSearch will be an object in the global namespace
+// that will build the search widgets.
 var fsTreeSearch = {
+  
   // List of link builders that have been registered
   builders: {},
   
@@ -136,7 +139,24 @@ var fsTreeSearch = {
     return name.split(/\s+(?=\S*$)/);
   }
 };
-  
+
+// The following lines extend the date object to
+// all for retrieving month names (long and short)
+Date.prototype.monthNames = [
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December"
+];
+Date.prototype.getMonthName = function() {
+    return this.monthNames[this.getMonth()];
+};
+Date.prototype.getShortMonthName = function () {
+    return this.getMonthName().substr(0, 3);
+};
+
+// When the document is done loading, decide if we are
+// on a page where the search widget should be build  
 $(document).ready(function(){  
   if ( window.location.pathname === '/tree/' && fsTreeSearch.getHashParts()['view'] === 'ancestor' ) {
     fsTreeSearch.buildPersonSearchWidget();
