@@ -5,7 +5,8 @@
       "jquery.js", 
       "fsTreeSearch.js",
       "builders/familysearch.js",
-      "builders/ancestry.js"
+      "builders/ancestry.js",
+      "builders/werelate.js"
     ],
     "matches": [ "https://familysearch.org/*", "https://www.familysearch.org/*" ],
     "run_at": "document_end",
@@ -14,5 +15,5 @@
   "description": "In the ancestor view, add search links to popular genealogy search engines with the names, places, and dates for the ancestor automatically filled in.",
   "name": "FamilySearch Family Tree Enhancements",
   "permissions": [ "https://familysearch.org/*", "https://www.familysearch.org/*" ],
-  "version": "1.0"
+  "version": "1.1"
 }
