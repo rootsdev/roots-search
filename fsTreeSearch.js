@@ -138,7 +138,7 @@ var fsTreeSearch = {
     return 0;
   },
   
-  // Returns an array with [0] being the given names and [1] being the family name
+  // Returns an array of strings with [0] being the given names and [1] being the family name
   // This function assumes that there is only one family name
   processName: function(name) {
     // Get given names and last name
