@@ -124,23 +124,14 @@ var fsTreeSearch = {
     return hashParts;
   },
   
-  // Parses a date string (d mm Y) and returns the year as an integer
-  // TODO: use JavaScript Date object to parse? why not return undefined?
+  // Parses a date string and returns the year
   getYear: function(date) {
-    if(!date) {
-      return 0;
-    }
-    var dateParts = date.split(/\s/);
-    var lastPart = parseInt(dateParts[dateParts.length-1],10);
-    if(lastPart > 1000) {
-      return lastPart;
-    }
-    return 0;
+    return (new Date(date)).getFullYear();
   },
   
   // Returns an array of strings with [0] being the given names and [1] being the family name
   // This function assumes that there is only one family name
-  processName: function(name) {
+  splitName: function(name) {
     // Get given names and last name
     return name.split(/\s+(?=\S*$)/);
   }

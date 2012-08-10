@@ -14,8 +14,8 @@
     
     // Process parents
     if(relationships.data.parents.length) {
-      var fatherName = fs.processName(relationships.data.parents[0].husband.name);
-      var motherName = fs.processName(relationships.data.parents[0].wife.name);
+      var fatherName = fs.splitName(relationships.data.parents[0].husband.name);
+      var motherName = fs.splitName(relationships.data.parents[0].wife.name);
       query = addQueryParam(query, 'msfng0', fatherName[0]);
       query = addQueryParam(query, 'msfns0', fatherName[1]);
       query = addQueryParam(query, 'msmng0', motherName[0]);
@@ -27,9 +27,9 @@
       var gender = summary.data.gender;
       var spouseName;
       if(gender == 'MALE' && relationships.data.spouses[0].wife) {
-        spouseName = fs.processName(relationships.data.spouses[0].wife.name);
+        spouseName = fs.splitName(relationships.data.spouses[0].wife.name);
       } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
-        spouseName = fs.processName(relationships.data.spouses[0].husband.name);
+        spouseName = fs.splitName(relationships.data.spouses[0].husband.name);
       }
       if(spouseName) {
         query = addQueryParam(query, 'mssng0', spouseName[0]);

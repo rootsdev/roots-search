@@ -33,10 +33,9 @@
      * the fs object passed in at the top of this file contains some
      * utility functions that aid in processing the data.
      *
-     * fs.getYear() takes in a date string returned by FamilySearch
-     * (ex: 4 January 1849) and returns the year as an interger.
+     * fs.getYear() takes in a date string returns the year.
      *
-     * fs.processName() takes in a name string and returns an array
+     * fs.splitName() takes in a name string and returns an array
      * of strings with [0] being the given names and [1] being the 
      * family name. It assumes that there is only one family name
      */
