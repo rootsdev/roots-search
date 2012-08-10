@@ -1,7 +1,7 @@
 FamilySearch Family Tree Enhancements
 =====================================
 
-FamilySearch Family Tree Enhancements is a Chrome extension that enhances FamilySearch's new Family Tree by adding search links to person pages.
+FamilySearch Family Tree Enhancements is a Chrome extension that enhances FamilySearch's new Family Tree by adding search links on person pages to popular genealogy sites (including FamilySearch itself) This makes it easier to search for more records about your ancestor by removing the need to copy and paste all of the personal details.
 
 Install
 -------
