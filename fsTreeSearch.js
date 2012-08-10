@@ -1,222 +1,153 @@
-var searchGadget;
-var searchGadgetRecordList;
-var searchGadgetFSLink;
-var searchGadgetAncestryLink;
-var searchGadgetLinkWrap;
-
-$(document).ready(function(){  
-  if ( window.location.pathname == '/tree/' ) {
-    buildSearchWidget();
-  }
-});
-
-function buildSearchWidget() {
-  // Create widget
-  searchGadget = $('<div id="recordSearchGadget" class="changeLogGadget summary"><h5>Record Search</h5></div>').prependTo('.sideBar');
-  searchGadgetRecordList = $('<div class="recordList" />').appendTo(searchGadget);
-  searchGadgetLinkWrap = $('<div id="searchLinkWrap" />').appendTo(searchGadget);
-  searchGadgetFSLink = $('<a href="#" class="changeType" target="_blank">FamilySearch</a>').appendTo(searchLinkWrap).hide();
-  searchGadgetAncestryLink = $('<a href="#" class="changeType" target="_blank">Ancestry</a>').appendTo(searchLinkWrap).hide();
-  searchGadgetLoader = $('<img id="searchLinkSpinner" src="https://familysearch.org/gadgetrepo/org/familysearch/gadget/gadget-core/1.x/shared/images/spinnerOnTan.gif" />').appendTo(searchGadget);
+var fsTreeSearch = {
+  // List of link builders that have been registered
+  builders: {},
   
-  // Bind to hashchange event
-  window.onhashchange = processHash;
+  // DOM references for the search gadget on the person page
+  personSearchGadget: { 
+    linksWrapper: null,
+    loader: null
+  },
   
-  // Initial setup
-  processHash();
-}
-
-function processHash(){
-  $('a', searchLinkWrap).hide();
-  searchGadgetLoader.show();
-  if(window.location.hash) {
-    // Get personID
-    var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
-    var hashParts = hash.split('&');
-    var personId = '';
-    var spouseId = '';
-    var ancestorView = false;
+  // Function for register link builders
+  registerSearchBuilder: function(name, handler) {
+    this.builders[name] = {'handler': handler};
+  },
+  
+  // Builds the search widget on the person page
+  buildPersonSearchWidget: function() {
+    var self = this;
     
-    $.each(hashParts, function(i,part) {
-      var partPieces = part.split('=');
-      if(partPieces[0] == 'person') {
-        personId = partPieces[1];
+    // Create widget
+    var searchGadget = $('<div id="recordSearchGadget" class="changeLogGadget summary"><h5>Record Search</h5></div>').prependTo('.sideBar');
+    self.personSearchGadget.linksWrapper = $('<div id="searchLinkWrap" />').appendTo(searchGadget);
+    self.personSearchGadget.loader = $('<img id="searchLinkSpinner" src="https://familysearch.org/gadgetrepo/org/familysearch/gadget/gadget-core/1.x/shared/images/spinnerOnTan.gif" />').appendTo(searchGadget);
+    
+    // Bind to hashchange event
+    window.onhashchange = function(){
+      self.processPersonHash();
+    }
+    
+    // Initial setup
+    self.processPersonHash();
+  },
+  
+  // Called when the person page loads and when the hash changes on the person page
+  processPersonHash: function() {
+    var self = this;      
+    
+    // Remove previous search links and show the ajax loader
+    self.personSearchGadget.linksWrapper.html('');
+    self.personSearchGadget.loader.show();
+    
+    if(window.location.hash) {
+      
+      // Get personId and spouseId
+      var hashParts = self.getHashParts();
+      var personId = hashParts['person'];
+      var spouseId = hashParts['spouse'];
+      
+      // If we have a personId and we are in the ancestor view, build the urls
+      if(personId) {
+        
+        // Get person info; process it when both ajax calls return
+        $.when(self.getPersonSummary(personId), self.getRelationships(personId,spouseId)).done(function(summary, relationships) {
+          
+          // Get actual return data
+          summary = summary[0];
+          relationships = relationships[0];
+          
+          // Setup urls
+          self.createPersonSearchLinks(summary, relationships);
+          self.personSearchGadget.loader.hide();
+        }); 
       }
-      if(partPieces[0] == 'spouse') {
-        spouseId = partPieces[1];
-      }
-      if(partPieces[0] == 'view' && partPieces[1] == 'ancestor') {
-        ancestorView = true;
+    }
+  },
+  
+  // Adds the search links to the person gadget
+  createPersonSearchLinks: function(summary, relationships) {
+    var self = this,
+        linkData = this.executeBuilders(summary, relationships);
+    
+    // Add the links to the widget
+    $.each(linkData, function(i, link) {
+      $('<a>').addClass('changeType').attr({
+        'target': '_blank',
+        'href': link.url
+      }).html(link.text).appendTo(self.personSearchGadget.linksWrapper);
+    });
+  },
+  
+  // Returns an array of search link objects
+  // gathered by executing the builders
+  executeBuilders: function(summary, relationships) {
+    var linkData = [];
+    
+    // Loop through the builders and call the handlers if they exist
+    $.each(this.builders, function(builderName, builder) {
+      if( builder.handler ) {
+        // Execute the handlers
+        var builderLinkData = builder.handler(summary, relationships);
+        
+        // Be forgiving and allow the handlers to return either a solo object or an array of objects
+        if( $.isArray(builderLinkData) ) {
+          $.merge(linkData, builderLinkData);
+        } else {
+          linkData.push(builderLinkData);
+        }
       }
     });
     
-    if(ancestorView && personId) {
-      createURLs(personId, spouseId);
+    return linkData;
+  },
+  
+  // Makes an ajax call to retrieve the persons summary data and returns a promise
+  getPersonSummary: function(personId) {
+    return $.getJSON('https://www.familysearch.org/tree-data/person/'+personId+'/summary');
+  },
+  
+  // Makes an ajax call to retrieve relationship info and returns a promise
+  getRelationships: function(personId, spouseId) {
+    var url = 'https://www.familysearch.org/tree-data/family-members/person/'+personId;
+    if(spouseId)
+      url += '?spouseId='+spouseId;
+    return $.getJSON(url);
+  },
+  
+  // Returns the hash values as a map {key:value}
+  getHashParts: function() {
+    var hashParts = {};
+    $.each(window.location.hash.substring(1).split('&'), function(i, part) {
+      var partPieces = part.split('=');
+      hashParts[partPieces[0]] = partPieces[1];
+    });
+    return hashParts;
+  },
+  
+  // Parses a date string (d mm Y) and returns the year as an integer
+  // TODO: use JavaScript Date object to parse? why not return undefined?
+  getYear: function(date) {
+    if(!date) {
+      return 0;
     }
-  }
-}
-
-function createURLs(personId, spouseId) {
-  // Get info; process it when both ajax calls return
-  $.when(getSummary(personId),getRelationships(personId,spouseId)).done(function(summary, relationships) {
-    // Get actual return data
-    summary = summary[0];
-    relationships = relationships[0];
-    
-    // Setup urls
-    createFSURL(summary, relationships);
-    createAncestryURL(summary, relationships);
-    searchGadgetLoader.hide();
-  }); 
-}
-
-function createFSURL(summary, relationships) {
-  var fsURL = 'https://familysearch.org/search/records/index#count=20&query=';
-  
-  var birthYear = getYear(summary.data.birthConclusion.details.date.normalizedText);
-  var gender = summary.data.gender;
-  
-  // Process summary info
-  var query = '';
-  query = addFSQueryParam(query,'givenname',summary.data.nameConclusion.details.givenPart);
-  query = addFSQueryParam(query,'surname',summary.data.nameConclusion.details.familyPart);
-  query = addFSQueryParam(query,'birth_place',summary.data.birthConclusion.details.place.normalizedText);
-  if(birthYear) {
-    query = addFSQueryParam(query,'birth_year',(birthYear-10)+'-'+(birthYear+10));
-  }
-  
-  /**
-   * The surnames of the parents and spouse are commented out because
-   * they usually decrease the quality of results when included
-   */
-  
-  // Process parents
-  if(relationships.data.parents.length) {
-    var fatherName = processName(relationships.data.parents[0].husband.name);
-    var motherName = processName(relationships.data.parents[0].wife.name);
-    query = addFSQueryParam(query,'father_givenname',fatherName[0]);
-    //query = addFSQueryParam(query,'father_surname',fatherName[1]);
-    query = addFSQueryParam(query,'mother_givenname',motherName[0]);
-    //query = addFSQueryParam(query,'mother_surname',motherName[1]);
-  }
-  
-  if(relationships.data.spouses.length) {
-    // Process spouse
-    var spouseName;
-    if(gender == 'MALE' && relationships.data.spouses[0].wife) {
-      spouseName = processName(relationships.data.spouses[0].wife.name);
-    } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
-      spouseName = processName(relationships.data.spouses[0].husband.name);
+    var dateParts = date.split(/\s/);
+    var lastPart = parseInt(dateParts[dateParts.length-1],10);
+    if(lastPart > 1000) {
+      return lastPart;
     }
-    if(spouseName) {
-      query = addFSQueryParam(query,'spouse_givenname',spouseName[0]);
-      //query = addFSQueryParam(query,'spouse_surname',spouseName[1]);
-    }
-    
-    // Process marriage info
-    if(relationships.data.spouses[0].event) {
-      var marriageYear = getYear(relationships.data.spouses[0].event.standardDate);
-      query = addFSQueryParam(query,'marriage_place',relationships.data.spouses[0].event.standardPlace);
-      query = addFSQueryParam(query,'marriage_year',(marriageYear-10)+'-'+(marriageYear+10));
-    }
-  }
-  
-  // Update link
-  searchGadgetFSLink.attr({'href':fsURL + encodeURIComponent(query)}).show();
-}
-
-function createAncestryURL(summary, relationships) {
-  var ancestryURL = 'http://search.ancestry.com/cgi-bin/sse.dll?rank=1';
-  var query = '';
-  
-  // Process personal information
-  query = addAncestryQueryParam(query,'gsfn',summary.data.nameConclusion.details.givenPart);
-	query = addAncestryQueryParam(query,'gsln',summary.data.nameConclusion.details.familyPart);
-	query = addAncestryQueryParam(query,'mswpn__ftp',summary.data.birthConclusion.details.place.normalizedText);
-	query = addAncestryQueryParam(query,'msbdy',getYear(summary.data.birthConclusion.details.date.normalizedText));	
-  
-  // Process parents
-  if(relationships.data.parents.length) {
-    var fatherName = processName(relationships.data.parents[0].husband.name);
-    var motherName = processName(relationships.data.parents[0].wife.name);
-    query = addAncestryQueryParam(query,'msfng0',fatherName[0]);
-    query = addAncestryQueryParam(query,'msfns0',fatherName[1]);
-    query = addAncestryQueryParam(query,'msmng0',motherName[0]);
-    query = addAncestryQueryParam(query,'msmns0',motherName[1]);
-  }
-  
-  if(relationships.data.spouses.length) {
-    // Process spouse name
-    var gender = summary.data.gender;
-    var spouseName;
-    if(gender == 'MALE' && relationships.data.spouses[0].wife) {
-      spouseName = processName(relationships.data.spouses[0].wife.name);
-    } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
-      spouseName = processName(relationships.data.spouses[0].husband.name);
-    }
-    if(spouseName) {
-      query = addAncestryQueryParam(query,'mssng0',spouseName[0]);
-      query = addAncestryQueryParam(query,'mssns',spouseName[1]);
-    }
-    
-    // Process marriage info
-    if(relationships.data.spouses[0].event) {
-      query = addAncestryQueryParam(query,'msgpn__ftp',relationships.data.spouses[0].event.standardPlace);
-      query = addAncestryQueryParam(query,'msgdy',getYear(relationships.data.spouses[0].event.standardDate));
-    }
-  }
-  
-  // Update link
-  searchGadgetAncestryLink.attr({'href':ancestryURL + query + '&gl=allgs'}).show();
-}
-
-function addAncestryQueryParam(query,queryParam,paramValue) {
-	if(paramValue) {
-		query += '&' + queryParam + '=' + encodeURIComponent(paramValue)
-	}	
-	return query;
-}
-
-function getSummary(personId) {
-  return $.getJSON('https://www.familysearch.org/tree-data/person/'+personId+'/summary');
-}
-
-function getRelationships(personId,spouseId) {
-  var url = 'https://www.familysearch.org/tree-data/family-members/person/'+personId;
-  if(spouseId)
-    url += '?spouseId='+spouseId;
-  return $.getJSON(url);
-}
-
-function addFSQueryParam(query,queryParam,paramValue) {
-  if(paramValue){
-    if(query) {
-      query += ' ';
-    }
-    query += '+' + queryParam + ':';
-    // if the value has a space, wrap it in quotes      
-    if(paramValue.indexOf(' ') >= 0) {
-      query += '"' + paramValue + '"~';
-    } else {
-      query += paramValue + '~';
-    }
-  }
-  return query;
-}
-
-function getYear(birthDate) {
-  if(!birthDate) {
     return 0;
+  },
+  
+  // Returns an array with [0] being the given names and [1] being the family name
+  // This function assumes that there is only one family name
+  processName: function(name) {
+    // Get given names and last name
+    return name.split(/\s+(?=\S*$)/);
   }
-  var dateParts = birthDate.split(/\s/);
-  var lastPart = parseInt(dateParts[dateParts.length-1],10);
-  if(lastPart > 1000) {
-    return lastPart;
+};
+  
+$(document).ready(function(){  
+  if ( window.location.pathname === '/tree/' && fsTreeSearch.getHashParts()['view'] === 'ancestor' ) {
+    fsTreeSearch.buildPersonSearchWidget();
   }
-  return 0;
-}
-
-function processName(name) {
-  // Get given names and last name
-  return name.split(/\s+(?=\S*$)/);
-}
+});
