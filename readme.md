@@ -17,7 +17,7 @@ Install
 Adding More Site Links
 ----------------------
 
-It is easy to add your own site links.
+It is easy to add search links to other sites. After the recent refactoring it only took me 15 minutes to add a link to WeRelate.org.
 
 1. Create a copy of `builders/sample.js` and rename it with the name of the site for which you are making a builder.
 1. Modify your new JavaScript file so that it correctly builds urls. There are more instructions about this in the sample.js file.
