@@ -6,27 +6,30 @@
     var ancestryURL = 'http://search.ancestry.com/cgi-bin/sse.dll?rank=1';
     var query = '';
     
-    // Process personal information
-    query = addQueryParam(query, 'gsfn', pd.givenName);
-    query = addQueryParam(query, 'gsln', pd.familyName);
-    query = addQueryParam(query, 'mswpn__ftp', pd.birthPlace);
+    // Simple mappings from the person data object to ancestry params
+    // These don't need any further processing
+    var mappings = [
+      ['gsfn', 'givenName'],
+      ['gsln', 'familyName'],
+      ['msbpn__ftp', 'birthPlace'],
+      ['msfng0', 'fatherGivenName'],
+      ['msfns0', 'fatherFamilyName'],
+      ['msmng0', 'motherGivenName'],
+      ['msmns0', 'motherFamilyName'],
+      ['mssng0', 'spouseGivenName'],
+      ['mssns', 'spouseFamilyName'],
+      ['msgpn__ftp', 'marriagePlace']
+    ];    
+    $.each(mappings, function(i, m) {
+      if( pd[m[1]] ) {
+        query = addQueryParam(query, m[0], pd[m[1]]);
+      }
+    });
+    
+    // Process dates
     query = addQueryParam(query, 'msbdy', fs.getYear(pd.birthDate));	
-    
-    // Process parents
-    query = addQueryParam(query, 'msfng0', pd.fatherGivenName);
-    query = addQueryParam(query, 'msfns0', pd.fatherFamilyName);
-    query = addQueryParam(query, 'msmng0', pd.motherGivenName);
-    query = addQueryParam(query, 'msmns0', pd.motherFamilyName);
-    
-    // Process spouse name
-    query = addQueryParam(query, 'mssng0', pd.spouseGivenName);
-    query = addQueryParam(query, 'mssns', pd.spouseFamilyName);
-      
-    // Process marriage info
-    query = addQueryParam(query, 'msgpn__ftp', pd.marriagePlace);
     query = addQueryParam(query, 'msgdy', fs.getYear(pd.marriageDate));
     
-    // Update link
     return {
       'text': 'Ancestry',
       'url': ancestryURL + query + '&gl=allgs'

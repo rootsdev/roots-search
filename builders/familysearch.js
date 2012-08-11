@@ -6,36 +6,43 @@
     var fsURL = 'https://familysearch.org/search/records/index#count=20&query=';
     var query = '';
     
-    // Process summary info
-    var birthYear = fs.getYear(pd.birthDate);
-    query = addQueryParam(query, 'givenname', pd.givenName);
-    query = addQueryParam(query, 'surname', pd.familyName);
-    query = addQueryParam(query, 'birth_place', pd.birthPlace);
-    if( birthYear ) {
-      query = addQueryParam(query, 'birth_year', (birthYear-10)+'-'+(birthYear+10));
-    }
-    
     /**
      * The surnames of the parents and spouse are commented out because
      * they usually decrease the quality of results when included
      */
     
-    // Process parents
-    query = addQueryParam(query, 'father_givenname', pd.fatherGivenName);
-    //query = addQueryParam(query, 'father_surname', pd.fatherFamilyName);
-    query = addQueryParam(query, 'mother_givenname', pd.motherGivenName);
-    //query = addQueryParam(query, 'mother_surname', pd.motherFamilyName);    
+    // Simple mappings from the person data object to fs params
+    // These don't need any further processing
+    var simpleMappings = [
+      ['givenname', 'givenName'],
+      ['surname', 'familyName'],
+      ['birth_place', 'birthPlace'],
+      ['father_givenname', 'fatherGivenName'],
+      // ['father_surname', 'fatherFamilyName'],
+      ['mother_givenname', 'motherGivenName'],
+      // ['mother_surname', 'motherFamilyName'],
+      ['spouse_givenname', 'spouseGivenName'],
+      // ['spouse_surname', 'spouseFamilyName'],
+      ['marriage_place', 'marriagePlace']
+    ];    
+    $.each(simpleMappings, function(i, m) {
+      if( pd[m[1]] ) {
+        query = addQueryParam(query, m[0], pd[m[1]]);
+      }
+    });
+    
+    // Process the birth year    
+    var birthYear = fs.getYear(pd.birthDate);
+    if( birthYear ) {
+      query = addQueryParam(query, 'birth_year', (birthYear-10)+'-'+(birthYear+10));
+    }
 
-    query = addQueryParam(query, 'spouse_givenname',pd.spouseGivenName);
-    //query = addQueryParam(query, 'spouse_surname',pd.spouseFamilyName);
-
+    // Process the marriage year
     var marriageYear = fs.getYear(pd.marriageDate);
     if( marriageYear ) {
       query = addQueryParam(query, 'marriage_year', (marriageYear-10)+'-'+(marriageYear+10));
     }
-    query = addQueryParam(query, 'marriage_place', pd.marriagePlace);
-
-    // Update link
+    
     return {
       'text': 'FamilySearch',
       'url': fsURL + encodeURIComponent(query)

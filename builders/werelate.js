@@ -6,31 +6,32 @@
     var baseUrl = 'http://www.werelate.org/wiki/Special:Search?sort=score&ns=Person&a=&st=&hg=&hs=&wg=&ws=&md=&mr=0&mp=&pn=&li=&su=&sa=&t=&k=&rows=20&ecp=p';
     var query = '';
     
-    // Process personal information
-    query = addQueryParam(query, 'g', pd.givenName);
-    query = addQueryParam(query, 's', pd.familyName);
+    // Simple mappings from the person data object to ancestry params
+    // These don't need any further processing
+    var mappings = [
+      ['g', 'givenName'],
+      ['s', 'familyName'],
+      ['bp', 'birthPlace'],
+      ['dp', 'deathPlace'],
+      ['fg', 'fatherGivenName'],
+      ['fs', 'fatherFamilyName'],
+      ['mg', 'motherGivenName'],
+      ['ms', 'motherFamilyName'],
+      ['sg', 'spouseGivenName'],
+      ['ss', 'spouseFamilyName']
+    ];    
+    $.each(mappings, function(i, m) {
+      if( pd[m[1]] ) {
+        query = addQueryParam(query, m[0], pd[m[1]]);
+      }
+    });
     
-    // Birth
-    query = addQueryParam(query, 'bp', pd.birthPlace);
+    // Process dates and add the ranges
     query = addQueryParam(query, 'bd', convertDate(pd.birthDate));
     query = addQueryParam(query, 'br', 5);
-    
-    // Death
-    query = addQueryParam(query, 'dp', pd.deathPlace);
     query = addQueryParam(query, 'dd', convertDate(pd.deathDate));
     query = addQueryParam(query, 'dr', 5);
-    
-    // Process parents
-    query = addQueryParam(query, 'fg', pd.fatherGivenName);
-    query = addQueryParam(query, 'fs', pd.fatherFamilyName);
-    query = addQueryParam(query, 'mg', pd.motherGivenName);
-    query = addQueryParam(query, 'ms', pd.motherFamilyName);
-    
-    // Process spouse name
-    query = addQueryParam(query, 'sg', pd.spouseGivenName);
-    query = addQueryParam(query, 'ss', pd.spouseFamilyName);
-    
-    // Update link
+
     return {
       'text': 'WeRelate.org',
       'url': baseUrl + query
