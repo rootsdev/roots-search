@@ -1,49 +1,34 @@
 (function(fs){
 
-  fs.registerSearchBuilder('werelate', createUrl);
+  fs.registerLinkBuilder('werelate', createUrl);
 
-  function createUrl(summary, relationships) {
+  function createUrl(pd) {
     var baseUrl = 'http://www.werelate.org/wiki/Special:Search?sort=score&ns=Person&a=&st=&hg=&hs=&wg=&ws=&md=&mr=0&mp=&pn=&li=&su=&sa=&t=&k=&rows=20&ecp=p';
     var query = '';
     
-    // Name
-    query = addQueryParam(query, 'g', summary.data.nameConclusion.details.givenPart);
-    query = addQueryParam(query, 's', summary.data.nameConclusion.details.familyPart);
+    // Process personal information
+    query = addQueryParam(query, 'g', pd.givenName);
+    query = addQueryParam(query, 's', pd.familyName);
     
     // Birth
-    query = addQueryParam(query, 'bp', summary.data.birthConclusion.details.place.normalizedText);
-    query = addQueryParam(query, 'bd', convertDate(summary.data.birthConclusion.details.date.normalizedText));
+    query = addQueryParam(query, 'bp', pd.birthPlace);
+    query = addQueryParam(query, 'bd', convertDate(pd.birthDate));
     query = addQueryParam(query, 'br', 5);
     
     // Death
-    query = addQueryParam(query, 'dp', summary.data.deathConclusion.details.place.normalizedText);
-    query = addQueryParam(query, 'dd', convertDate(summary.data.deathConclusion.details.date.normalizedText));
+    query = addQueryParam(query, 'dp', pd.deathPlace);
+    query = addQueryParam(query, 'dd', convertDate(pd.deathDate));
     query = addQueryParam(query, 'dr', 5);
     
     // Process parents
-    if(relationships.data.parents.length) {
-      var fatherName = fs.splitName(relationships.data.parents[0].husband.name);
-      var motherName = fs.splitName(relationships.data.parents[0].wife.name);
-      query = addQueryParam(query, 'fg', fatherName[0]);
-      query = addQueryParam(query, 'fs', fatherName[1]);
-      query = addQueryParam(query, 'mg', motherName[0]);
-      query = addQueryParam(query, 'ms', motherName[1]);
-    }
+    query = addQueryParam(query, 'fg', pd.fatherGivenName);
+    query = addQueryParam(query, 'fs', pd.fatherFamilyName);
+    query = addQueryParam(query, 'mg', pd.motherGivenName);
+    query = addQueryParam(query, 'ms', pd.motherFamilyName);
     
-    if(relationships.data.spouses.length) {
-      // Process spouse name
-      var gender = summary.data.gender;
-      var spouseName;
-      if(gender == 'MALE' && relationships.data.spouses[0].wife) {
-        spouseName = fs.splitName(relationships.data.spouses[0].wife.name);
-      } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
-        spouseName = fs.splitName(relationships.data.spouses[0].husband.name);
-      }
-      if(spouseName) {
-        query = addQueryParam(query, 'sg', spouseName[0]);
-        query = addQueryParam(query, 'ss', spouseName[1]);
-      }
-    }
+    // Process spouse name
+    query = addQueryParam(query, 'sg', pd.spouseGivenName);
+    query = addQueryParam(query, 'ss', pd.spouseFamilyName);
     
     // Update link
     return {
@@ -64,4 +49,4 @@
     return [date.getDate(), date.getShortMonthName(), date.getFullYear()].join(' ');
   }
 
-}(fsTreeSearch));
+}(fs));

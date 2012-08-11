@@ -1,19 +1,17 @@
 (function(fs){
 
-  fs.registerSearchBuilder('familysearch', createUrl);
+  fs.registerLinkBuilder('familysearch', createUrl);
 
-  function createUrl(summary, relationships) {
+  function createUrl(pd) {
     var fsURL = 'https://familysearch.org/search/records/index#count=20&query=';
-    
-    var birthYear = fs.getYear(summary.data.birthConclusion.details.date.normalizedText);
-    var gender = summary.data.gender;
+    var query = '';
     
     // Process summary info
-    var query = '';
-    query = addQueryParam(query, 'givenname', summary.data.nameConclusion.details.givenPart);
-    query = addQueryParam(query, 'surname', summary.data.nameConclusion.details.familyPart);
-    query = addQueryParam(query, 'birth_place', summary.data.birthConclusion.details.place.normalizedText);
-    if(birthYear) {
+    var birthYear = fs.getYear(pd.birthDate);
+    query = addQueryParam(query, 'givenname', pd.givenName);
+    query = addQueryParam(query, 'surname', pd.familyName);
+    query = addQueryParam(query, 'birth_place', pd.birthPlace);
+    if( birthYear ) {
       query = addQueryParam(query, 'birth_year', (birthYear-10)+'-'+(birthYear+10));
     }
     
@@ -23,36 +21,20 @@
      */
     
     // Process parents
-    if(relationships.data.parents.length) {
-      var fatherName = fs.splitName(relationships.data.parents[0].husband.name);
-      var motherName = fs.splitName(relationships.data.parents[0].wife.name);
-      query = addQueryParam(query,'father_givenname',fatherName[0]);
-      //query = addQueryParam(query,'father_surname',fatherName[1]);
-      query = addQueryParam(query,'mother_givenname',motherName[0]);
-      //query = addQueryParam(query,'mother_surname',motherName[1]);
+    query = addQueryParam(query, 'father_givenname', pd.fatherGivenName);
+    //query = addQueryParam(query, 'father_surname', pd.fatherFamilyName);
+    query = addQueryParam(query, 'mother_givenname', pd.motherGivenName);
+    //query = addQueryParam(query, 'mother_surname', pd.motherFamilyName);    
+
+    query = addQueryParam(query, 'spouse_givenname',pd.spouseGivenName);
+    //query = addQueryParam(query, 'spouse_surname',pd.spouseFamilyName);
+
+    var marriageYear = fs.getYear(pd.marriageDate);
+    if( marriageYear ) {
+      query = addQueryParam(query, 'marriage_year', (marriageYear-10)+'-'+(marriageYear+10));
     }
-    
-    if(relationships.data.spouses.length) {
-      // Process spouse
-      var spouseName;
-      if(gender == 'MALE' && relationships.data.spouses[0].wife) {
-        spouseName = fs.splitName(relationships.data.spouses[0].wife.name);
-      } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
-        spouseName = fs.splitName(relationships.data.spouses[0].husband.name);
-      }
-      if(spouseName) {
-        query = addQueryParam(query,'spouse_givenname',spouseName[0]);
-        //query = addQueryParam(query,'spouse_surname',spouseName[1]);
-      }
-      
-      // Process marriage info
-      if(relationships.data.spouses[0].event) {
-        var marriageYear = fs.getYear(relationships.data.spouses[0].event.standardDate);
-        query = addQueryParam(query,'marriage_place',relationships.data.spouses[0].event.standardPlace);
-        query = addQueryParam(query,'marriage_year',(marriageYear-10)+'-'+(marriageYear+10));
-      }
-    }
-    
+    query = addQueryParam(query, 'marriage_place', pd.marriagePlace);
+
     // Update link
     return {
       'text': 'FamilySearch',
@@ -76,4 +58,4 @@
     return query;
   }
 
-}(fsTreeSearch));
+}(fs));

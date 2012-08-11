@@ -14,19 +14,14 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  fs.registerSearchBuilder('sample', createUrl);
+  fs.registerLinkBuilder('sample', createUrl);
 
   /**
    * The function which you register as your builder
-   * needs to accept two parameters: 1) an object
-   * representing a persons summary/basic info, and
-   * 2) an object representing that the persons
-   * relationships. The structure of the two objects
-   * is not trivial so I won't attempt to document it.
-   * Looks at the other builders for tips on how to
-   * process them.
+   * needs to accept one parameters: an object
+   * representing a persons information.
    **/
-  function createUrl(summary, relationships) {    
+  function createUrl(pd) {    
     
     /**
      * Here is where you process the objects and build your search url.
@@ -57,4 +52,4 @@
     };
   }
 
-}(fsTreeSearch));
+}(fs));
