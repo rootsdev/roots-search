@@ -27,13 +27,17 @@
     });
     
     // Process dates and add the ranges
-    query = addQueryParam(query, 'bd', convertDate(pd.birthDate));
-    query = addQueryParam(query, 'br', 5);
-    query = addQueryParam(query, 'dd', convertDate(pd.deathDate));
-    query = addQueryParam(query, 'dr', 5);
-
+    if( pd.birthDate ) {
+      query = addQueryParam(query, 'bd', convertDate(pd.birthDate));
+      query = addQueryParam(query, 'br', 5);
+    }
+    if( pd.deathDate ) {
+      query = addQueryParam(query, 'dd', convertDate(pd.deathDate));
+      query = addQueryParam(query, 'dr', 5);
+    }
+    
     return {
-      'text': 'WeRelate.org',
+      'text': 'WeRelate',
       'url': baseUrl + query
     };
   }
