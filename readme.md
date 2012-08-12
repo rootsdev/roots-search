@@ -1,7 +1,7 @@
 Roots Search Chrome Extension
 =============================
 
-The Roots Search Chrome Extension connects popular genealogy websites by providing search links when viewing records or people. For example, when viewing a person in your tree on FamilySearch, this extension will links to search for that same person in Ancestry, WeRelate, FamilySearch itself, and more. This removes the need to copy and paste lots of information when searching on multiple websites.
+The Roots Search Chrome Extension connects popular genealogy websites by providing search links when viewing records or people. For example, when viewing a person in your tree on FamilySearch, this extension will add links to the page for searching for that same person on Ancestry, WeRelate, FamilySearch itself, and more. This removes the need to copy and paste lots of information when searching on multiple websites.
 
 Install
 -------
