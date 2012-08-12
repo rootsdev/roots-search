@@ -14,14 +14,18 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  rs.registerLinkBuilder('sample', createUrl);
+  rs.registerLinkBuilder('example', createUrl);
 
   /**
    * The function which you register as your builder
-   * needs to accept one parameters: an object
-   * representing a persons information.
+   * needs to accept one parameter: an object
+   * representing a persons information. View the wiki
+   * for details on the data format.
    **/
   function createUrl(pd) {    
+    
+    var url = 'http://myexamplesearchdomain.com/search?';
+    var query = '';
     
     /**
      * Here is where you process the objects and build your search url.
@@ -36,7 +40,22 @@
      */
     
     /**
-     * An object must be return in the format shown below.
+     * None of the attributes for the person data object are required
+     * so we check to see if they exist before using them.
+     * 
+     * It is usually a good idea to put the query building logic
+     * into a function (addQueryParam in this example). It makes 
+     * the code a lot cleaner.
+     */
+    if( pd.firstName ) {
+      query = addQueryParam( query, 'first-name', pd.firstName );
+    }
+    if( pd.lastName ) {
+      query = addQueryParam( query, 'last-name', pd.firstName );
+    }
+    
+    /**
+     * An object must be returned in the format shown below.
      * It is valid to return a list of objects if for some reason
      * you want multiple links for your site. However, returning
      * links from different sites is discouraged (mostly because
@@ -44,12 +63,19 @@
      * turn off just one of the sites later).
      *
      * The object below will be turned into a link similar to:
-     * <a href="http://mysamplesearchurl.com/searchstuff">My Sample</a>
+     * <a href="http://myexamplesearchdomain.com/searchstuff">My Example</a>
      **/
     return {
-      'text': 'My Sample',
-      'url': 'http://mysamplesearchdomain.com/searchstuff'
+      'text': 'My Example',
+      'url': url + query
     };
+  }
+  
+  function addQueryParam(query, name, value) {
+    if( query ) {
+      query += '&';
+    }
+    return query += name + '=' + encodeURIComponent( pd.lastName );
   }
 
 }(rs));
