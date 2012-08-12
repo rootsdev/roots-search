@@ -1,6 +1,6 @@
-(function(fs){
+(function(rs){
 
-  fs.registerLinkBuilder('ancestry', createUrl);
+  rs.registerLinkBuilder('ancestry', createUrl);
 
   function createUrl(pd) {
     var ancestryURL = 'http://search.ancestry.com/cgi-bin/sse.dll?rank=1';
@@ -27,8 +27,8 @@
     });
     
     // Process dates
-    query = addQueryParam(query, 'msbdy', fs.getYear(pd.birthDate));	
-    query = addQueryParam(query, 'msgdy', fs.getYear(pd.marriageDate));
+    query = addQueryParam(query, 'msbdy', rs.getYear(pd.birthDate));	
+    query = addQueryParam(query, 'msgdy', rs.getYear(pd.marriageDate));
     
     return {
       'text': 'Ancestry',
@@ -43,4 +43,4 @@
     return query;
   }
 
-}(fs));
+}(rs));

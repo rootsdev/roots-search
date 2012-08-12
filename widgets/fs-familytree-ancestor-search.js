@@ -1,12 +1,12 @@
-(function(fs){
+(function(rs){
 
-  fs.registerWidget(['familysearch.org'], setup);
+  rs.registerWidget(['familysearch.org'], setup);
   
   // DOM references for the search gadget on the person page
   var linksWrapper, loader;
   
   function setup() {
-    if ( window.location.pathname === '/tree/' && fs.getHashParts()['view'] === 'ancestor' ) {
+    if ( window.location.pathname === '/tree/' && rs.getHashParts()['view'] === 'ancestor' ) {
       buildPersonSearchWidget();
     }
   }
@@ -37,7 +37,7 @@
     if(window.location.hash) {
       
       // Get personId and spouseId
-      var hashParts = fs.getHashParts();
+      var hashParts = rs.getHashParts();
       var personId = hashParts['person'];
       var spouseId = hashParts['spouse'];
       
@@ -53,7 +53,7 @@
           var normalizedData = normalizeData(summary, relationships);
           
           // Setup urls
-          createPersonSearchLinks(fs.executeLinkBuilders(normalizedData));
+          createPersonSearchLinks(rs.executeLinkBuilders(normalizedData));
           loader.hide();
         }); 
       }
@@ -79,16 +79,16 @@
     
     // Process parents if there is a relationship
     if( relationships.data.parents.length ) {
-      var fatherName = fs.splitName(relationships.data.parents[0].husband.name);
-      var motherName = fs.splitName(relationships.data.parents[0].wife.name);
+      var fatherName = rs.splitName(relationships.data.parents[0].husband.name);
+      var motherName = rs.splitName(relationships.data.parents[0].wife.name);
     }
     
     // Process spouse if there is a spouse relationship
     if(relationships.data.spouses.length) {
       if(gender == 'MALE' && relationships.data.spouses[0].wife) {
-        spouseName = fs.splitName(relationships.data.spouses[0].wife.name);
+        spouseName = rs.splitName(relationships.data.spouses[0].wife.name);
       } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
-        spouseName = fs.splitName(relationships.data.spouses[0].husband.name);
+        spouseName = rs.splitName(relationships.data.spouses[0].husband.name);
       }
     }
     
@@ -127,4 +127,4 @@
       url += '?spouseId='+spouseId;
     return $.getJSON(url);
   }
-}(fs));
+}(rs));

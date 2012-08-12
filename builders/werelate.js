@@ -1,6 +1,6 @@
-(function(fs){
+(function(rs){
 
-  fs.registerLinkBuilder('werelate', createUrl);
+  rs.registerLinkBuilder('werelate', createUrl);
 
   function createUrl(pd) {
     var baseUrl = 'http://www.werelate.org/wiki/Special:Search?sort=score&ns=Person&a=&st=&hg=&hs=&wg=&ws=&md=&mr=0&mp=&pn=&li=&su=&sa=&t=&k=&rows=20&ecp=p';
@@ -50,4 +50,4 @@
     return [date.getDate(), date.getShortMonthName(), date.getFullYear()].join(' ');
   }
 
-}(fs));
+}(rs));

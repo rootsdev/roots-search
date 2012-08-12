@@ -1,11 +1,11 @@
 // On each page load, find widgets that should be built 
 $(document).ready(function(){  
-  fs.processWidgets(window.location.host)
+  rs.processWidgets(window.location.host)
 });
 
-// fs will be an object in the global namespace
+// rs will be an object in the global namespace
 // that will build the search widgets.
-var fs = {
+var rs = {
   
   // List of widgets that have been registered
   widgets: {},

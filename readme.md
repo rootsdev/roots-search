@@ -1,7 +1,7 @@
-FamilySearch Family Tree Enhancements
-=====================================
+Roots Search Chrome Extension
+=============================
 
-FamilySearch Family Tree Enhancements is a Chrome extension that enhances FamilySearch's new Family Tree by adding search links on person pages to popular genealogy sites (including FamilySearch itself) This makes it easier to search for more records about your ancestor by removing the need to copy and paste all of the personal details.
+The Roots Search Chrome Extension connects popular genealogy websites by providing search links when viewing records or people. For example, when viewing a person in your tree on FamilySearch, this extension will links to search for that same person in Ancestry, WeRelate, FamilySearch itself, and more. This removes the need to copy and paste lots of information when searching on multiple websites.
 
 Install
 -------
@@ -14,12 +14,7 @@ Install
 1. Click the button labeled "Load unpacked extension...".
 1. Select the folder where you unzipped the files.
 
-Adding More Site Links
-----------------------
+Adding More Widgets and Search Links
+----------------------------------
 
-It is easy to add search links to other sites.
-
-1. Create a copy of `builders/sample.js` and rename it with the name of the site for which you are making a builder.
-1. Modify your new JavaScript file so that it correctly builds urls. There are more instructions about this in the sample.js file.
-1. Add your new JavaScript file to the `content_scripts['js']` list and reload the extension.
-1. Share your new builder.
+Visit the [Wiki](https://github.com/rootsdev/roots-search/wiki) for more information on adding new widgets and search links.

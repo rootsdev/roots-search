@@ -1,6 +1,6 @@
-(function(fs){
+(function(rs){
 
-  fs.registerLinkBuilder('familysearch', createUrl);
+  rs.registerLinkBuilder('familysearch', createUrl);
 
   function createUrl(pd) {
     var fsURL = 'https://familysearch.org/search/records/index#count=20&query=';
@@ -32,13 +32,13 @@
     });
     
     // Process the birth year    
-    var birthYear = fs.getYear(pd.birthDate);
+    var birthYear = rs.getYear(pd.birthDate);
     if( birthYear ) {
       query = addQueryParam(query, 'birth_year', (birthYear-10)+'-'+(birthYear+10));
     }
 
     // Process the marriage year
-    var marriageYear = fs.getYear(pd.marriageDate);
+    var marriageYear = rs.getYear(pd.marriageDate);
     if( marriageYear ) {
       query = addQueryParam(query, 'marriage_year', (marriageYear-10)+'-'+(marriageYear+10));
     }
@@ -65,4 +65,4 @@
     return query;
   }
 
-}(fs));
+}(rs));

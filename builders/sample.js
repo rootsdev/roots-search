@@ -1,4 +1,4 @@
-(function(fs){
+(function(rs){
 
   /**
    * The first parameter is the name of your builder. It
@@ -14,7 +14,7 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  fs.registerLinkBuilder('sample', createUrl);
+  rs.registerLinkBuilder('sample', createUrl);
 
   /**
    * The function which you register as your builder
@@ -25,12 +25,12 @@
     
     /**
      * Here is where you process the objects and build your search url.
-     * the fs object passed in at the top of this file contains some
+     * the rs object passed in at the top of this file contains some
      * utility functions that aid in processing the data.
      *
-     * fs.getYear() takes in a date string returns the year.
+     * rs.getYear() takes in a date string returns the year.
      *
-     * fs.splitName() takes in a name string and returns an array
+     * rs.splitName() takes in a name string and returns an array
      * of strings with [0] being the given names and [1] being the 
      * family name. It assumes that there is only one family name
      */
@@ -48,8 +48,8 @@
      **/
     return {
       'text': 'My Sample',
-      'url': 'http://mysamplesearchurl.com/searchstuff'
+      'url': 'http://mysamplesearchdomain.com/searchstuff'
     };
   }
 
-}(fs));
+}(rs));
