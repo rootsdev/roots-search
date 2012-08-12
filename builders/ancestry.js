@@ -12,6 +12,7 @@
       ['gsfn', 'givenName'],
       ['gsln', 'familyName'],
       ['msbpn__ftp', 'birthPlace'],
+      ['msdpn__ftp', 'deathPlace'],
       ['msfng0', 'fatherGivenName'],
       ['msfns0', 'fatherFamilyName'],
       ['msmng0', 'motherGivenName'],
@@ -27,7 +28,8 @@
     });
     
     // Process dates
-    query = addQueryParam(query, 'msbdy', rs.getYear(pd.birthDate));	
+    query = addQueryParam(query, 'msbdy', rs.getYear(pd.birthDate));
+    query = addQueryParam(query, 'msddy', rs.getYear(pd.deathDate));
     query = addQueryParam(query, 'msgdy', rs.getYear(pd.marriageDate));
     
     return {

@@ -11,12 +11,15 @@
      * they usually decrease the quality of results when included
      */
     
+    // death_place%3A%22death%20place%22~%20%2Bdeath_year%3A1919-2222~
+    
     // Simple mappings from the person data object to fs params
     // These don't need any further processing
     var simpleMappings = [
       ['givenname', 'givenName'],
       ['surname', 'familyName'],
       ['birth_place', 'birthPlace'],
+      ['death_place', 'deathPlace'],
       ['father_givenname', 'fatherGivenName'],
       // ['father_surname', 'fatherFamilyName'],
       ['mother_givenname', 'motherGivenName'],
@@ -35,6 +38,12 @@
     var birthYear = rs.getYear(pd.birthDate);
     if( birthYear ) {
       query = addQueryParam(query, 'birth_year', (birthYear-10)+'-'+(birthYear+10));
+    }
+    
+    // Process the death year
+    var deathYear = rs.getYear(pd.deathDate);
+    if( deathYear ) {
+      query = addQueryParam(query, 'death_year', (deathYear-10)+'-'+(deathYear+10));
     }
 
     // Process the marriage year
