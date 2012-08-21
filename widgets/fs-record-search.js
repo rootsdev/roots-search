@@ -1,14 +1,10 @@
 (function(rs, undefined){
-
-  rs.registerWidget(['familysearch.org'], verifySetup);
   
   var hasFamilyTable = $('.result-data .household-label').length > 0;
   
-  function verifySetup() {
-    if( window.location.pathname.indexOf('/pal:/') == 0 ) {
-      setup();
-    }
-  }
+  $(document).ready(function(){
+    setup();
+  });
   
   function setup() {
     

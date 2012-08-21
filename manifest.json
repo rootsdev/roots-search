@@ -1,30 +1,50 @@
 {
   "manifest_version": 2,
-  "content_scripts": [{
-    "js": [ 
-      "jquery.js", 
-      "roots-search.js",
-      "widgets/fs-familytree-ancestor-search.js",
-      "widgets/fs-record-search.js",
-      "builders/familysearch.js",
-      "builders/ancestry.js",
-      "builders/werelate.js"
-    ],
-    "matches": [ 
-      "https://familysearch.org/*", 
-      "https://www.familysearch.org/*" 
-    ],
-    "run_at": "document_end",
-		"css": [ 
-      "widgets/fs-familytree-ancestor-search.css",
-      "widgets/fs-record-search.css"
-    ]
-  }],
   "description": "Roots Search connects popular genealogy websites by providing search links when viewing records or people. For example, when viewing a person in your tree on FamilySearch, this extension will add links to the page for searching for that same person on Ancestry, WeRelate, FamilySearch itself, and more. This removes the need to copy and paste lots of information when searching on multiple websites.",
   "name": "Roots Search",
+  "version": "2.0.1",
   "permissions": [ 
     "https://familysearch.org/*", 
     "https://www.familysearch.org/*" 
   ],
-  "version": "2.0.1"
+  "content_scripts": [
+    {
+      "matches": [ 
+        "https://familysearch.org/*", 
+        "https://www.familysearch.org/*" 
+      ],
+      "run_at": "document_end",
+      "js": [ 
+        "jquery.js", 
+        "roots-search.js",
+        "builders/familysearch.js",
+        "builders/ancestry.js",
+        "builders/werelate.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://familysearch.org/pal:/*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/fs-record-search.js"
+      ],
+      "css": [
+        "widgets/fs-record-search.css"
+      ]
+    },
+    {
+      "matches": [
+        "https://familysearch.org/tree/*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/fs-familytree-ancestor-search.js"
+      ],
+      "css": [
+        "widgets/fs-familytree-ancestor-search.css"
+      ]
+    }
+  ]
 }

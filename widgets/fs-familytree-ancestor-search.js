@@ -1,16 +1,18 @@
 (function(rs){
-
-  rs.registerWidget(['familysearch.org'], setup);
   
   // DOM references for the search gadget on the person page
   var linksWrapper, loader;
   
+  $(document).ready(function(){
+    setup();
+  });
+  
   function setup() {
-    if ( window.location.pathname === '/tree/' && rs.getHashParts()['view'] === 'ancestor' ) {
+    if ( rs.getHashParts()['view'] === 'ancestor' ) {
       buildPersonSearchWidget();
     }
   }
-  
+
   // Builds the search widget on the person page
   function buildPersonSearchWidget() {
     var self = this;

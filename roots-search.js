@@ -1,40 +1,5 @@
-// On each page load, find widgets that should be built 
-$(document).ready(function(){  
-  rs.processWidgets(window.location.host)
-});
-
-// rs will be an object in the global namespace
-// that will build the search widgets.
+// rs will be an object in the global namespace.
 var rs = {
-  
-  // List of widgets that have been registered
-  widgets: {},
-  
-  // Registers a widget with a handler to be called
-  // then the current page matches the given domains
-  registerWidget: function(domains, handler) {
-    var self = this;
-    
-    // Allow for just a single domain to be given
-    if( !$.isArray(domains) ) {
-      domains = [ domains ];
-    }
-    
-    // Register the handler with each domain
-    $.each(domains, function(i, d) {
-      if( !self.widgets[d] ) {
-        self.widgets[d] = [];
-      }
-      self.widgets[d].push(handler);
-    });
-  },
-  
-  // Call the handlers of widgets registered with the given domain
-  processWidgets: function(domain) {
-    $.each( this.widgets[domain], function(i, handler) {
-      handler();
-    });
-  },
   
   // List of link builders that have been registered
   linkBuilders: {},
