@@ -2,16 +2,16 @@
   "manifest_version": 2,
   "description": "Roots Search connects popular genealogy websites by providing search links when viewing records or people. For example, when viewing a person in your tree on FamilySearch, this extension will add links to the page for searching for that same person on Ancestry, WeRelate, FamilySearch itself, and more. This removes the need to copy and paste lots of information when searching on multiple websites.",
   "name": "Roots Search",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "permissions": [ 
-    "https://familysearch.org/*", 
-    "https://www.familysearch.org/*" 
+    "https://familysearch.org/*",
+    "http://www.werelate.org/wiki/Person:*"
   ],
   "content_scripts": [
     {
       "matches": [ 
-        "https://familysearch.org/*", 
-        "https://www.familysearch.org/*" 
+        "https://familysearch.org/*",
+        "http://www.werelate.org/wiki/Person:*"
       ],
       "run_at": "document_end",
       "js": [ 
@@ -44,6 +44,18 @@
       ],
       "css": [
         "widgets/fs-familytree-ancestor-search.css"
+      ]
+    },
+    {
+      "matches": [
+        "http://www.werelate.org/wiki/Person:*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/werelate-person-search.js"
+      ],
+      "css": [
+        "widgets/werelate-person-search.css"
       ]
     }
   ]

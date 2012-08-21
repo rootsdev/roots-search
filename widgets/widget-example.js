@@ -1,20 +1,12 @@
 (function(rs){
 
   /**
-   * The widget needs to be registered the the Roots Search (rs) object.
-   * All rs does now it notify when its time to be built. The widget
-   * could take care of that itself, but it felt right for rs to do it.
-   * Plus, in the future rs will need to know that it exists for other reasons.
-   *
-   * rs.registerWidget() takes in two parameters:
-   *   1) an array of domains (don't include http:// or https://) which the widget runs on
-   *   2) the function which will be called then on those domains (it doesnt' have to be called "setup")
+   * Setup the widget when the page loads.
    */
-  rs.registerWidget(['www.example.org'], setup);
+  $(document).ready(function(){
+    setup();
+  });
   
-  /**
-   * In this example, setup gets called whenever we're on www.example.org
-   */
   function setup() {
     
     /**
