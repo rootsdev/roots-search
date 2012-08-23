@@ -6,14 +6,14 @@
   "permissions": [ 
     "https://familysearch.org/*",
     "http://www.werelate.org/wiki/Person:*",
-    "http://search.ancestry.com/cgi-bin/sse.dll?indiv=1*"
+    "http://search.ancestry.com/cgi-bin/sse.dll*"
   ],
   "content_scripts": [
     {
       "matches": [ 
         "https://familysearch.org/*",
         "http://www.werelate.org/wiki/Person:*",
-        "http://search.ancestry.com/cgi-bin/sse.dll?indiv=1*"
+        "http://search.ancestry.com/cgi-bin/sse.dll*"
       ],
       "run_at": "document_end",
       "js": [ 
@@ -62,7 +62,7 @@
     },
     {
       "matches": [
-        "http://search.ancestry.com/cgi-bin/sse.dll?indiv=1*"
+        "http://search.ancestry.com/cgi-bin/sse.dll*"
       ],
       "run_at": "document_end",
       "js": [
