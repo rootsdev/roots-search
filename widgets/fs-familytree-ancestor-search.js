@@ -119,12 +119,12 @@
   
   // Makes an ajax call to retrieve the persons summary data and returns a promise
   function getPersonSummary(personId) {
-    return $.getJSON('https://www.familysearch.org/tree-data/person/'+personId+'/summary');
+    return $.getJSON('https://familysearch.org/tree-data/person/'+personId+'/summary');
   }
   
   // Makes an ajax call to retrieve relationship info and returns a promise
   function getRelationships(personId, spouseId) {
-    var url = 'https://www.familysearch.org/tree-data/family-members/person/'+personId;
+    var url = 'https://familysearch.org/tree-data/family-members/person/'+personId;
     if(spouseId)
       url += '?spouseId='+spouseId;
     return $.getJSON(url);
