@@ -1,24 +1,43 @@
-(function(rs){
+(function(rs, undefined){
+  
+  var widgetBuilt = false;
   
   // DOM references for the search gadget on the person page
-  var linksWrapper, loader;
+  var searchGadget, linksWrapper, loader;
   
+  // Have the setup function called when the hash changes.
+  // We need the opportunity to build the search widget
+  // later if we don't start on the ancestor view
   $(document).ready(function(){
-    setup();
+    window.onhashchange = setup;
+    
+    setup()
   });
   
+  // Builds the search widget if we're on the ancestor view
   function setup() {
-    if ( rs.getHashParts()['view'] === 'ancestor' ) {
+    if ( rs.getHashParts()['view'] == 'ancestor' ) {
       buildPersonSearchWidget();
     }
+  }
+  
+  // Remove the widget if we navigate away from an 
+  // ancestor view on a hashchange (no page reload)
+  function teardownWidget() {
+    searchGadget.remove();
+    searchGadget = linksWrapper = loader = undefined;
+    widgetBuilt = false;
+    window.onhashchange = setup;
   }
 
   // Builds the search widget on the person page
   function buildPersonSearchWidget() {
     var self = this;
     
+    widgetBuilt = true;
+    
     // Create widget
-    var searchGadget = $('<div id="recordSearchGadget" class="changeLogGadget summary"><h5>Record Search</h5></div>').prependTo('.sideBar');
+    searchGadget = $('<div id="recordSearchGadget" class="changeLogGadget summary"><h5>Record Search</h5></div>').prependTo('.sideBar');
     linksWrapper = $('<div id="searchLinkWrap" />').appendTo(searchGadget);
     loader = $('<img id="searchLinkSpinner" src="https://familysearch.org/gadgetrepo/org/familysearch/gadget/gadget-core/1.x/shared/images/spinnerOnTan.gif" />').appendTo(searchGadget);
     
@@ -35,11 +54,11 @@
     // Remove previous search links and show the ajax loader
     linksWrapper.html('');
     loader.show();
+    var hashParts = rs.getHashParts();
     
-    if(window.location.hash) {
+    if( hashParts['view'] == 'ancestor' ) {
       
       // Get personId and spouseId
-      var hashParts = rs.getHashParts();
       var personId = hashParts['person'];
       var spouseId = hashParts['spouse'];
       
@@ -59,6 +78,11 @@
           loader.hide();
         }); 
       }
+    } 
+    
+    // If we're no longer viewing an ancestor, teardown the widget
+    else {
+      teardownWidget();
     }
   }
   

@@ -35,10 +35,12 @@ var rs = {
   // Returns the hash values as a map {key:value}
   getHashParts: function() {
     var hashParts = {};
-    $.each(window.location.hash.substring(1).split('&'), function(i, part) {
-      var partPieces = part.split('=');
-      hashParts[partPieces[0]] = partPieces[1];
-    });
+    if( window.location.hash ) {
+      $.each(window.location.hash.substring(1).split('&'), function(i, part) {
+        var partPieces = part.split('=');
+        hashParts[partPieces[0]] = partPieces[1];
+      });
+    }
     return hashParts;
   },
   
