@@ -37,8 +37,8 @@
     var personData = {
       'givenName': nameParts[0],
       'familyName': nameParts[1],
-      'birthDate': checkMultipleFields( recordData, ['birth date', 'birthdate', 'estimated birth year', 'estimated birth date'] ),
-      'birthPlace': checkMultipleFields( recordData, ['birthplace', 'place of birth'] ),
+      'birthDate': checkMultipleFields( recordData, ['birth date', 'birthdate', 'estimated birth year', 'estimated birth date'], 1 ),
+      'birthPlace': checkMultipleFields( recordData, ['birthplace', 'place of birth'], 1 ),
       'deathDate': getCleanCellValue( recordData['death date'], 1 ),
       'deathPlace': getCleanCellValue( recordData['death place'], 1 )
     };
@@ -77,10 +77,10 @@
   
   // Check for the existence of multiple fields
   // First one found is returned
-  function checkMultipleFields( recordData, fields ) {
+  function checkMultipleFields( recordData, fields, position ) {
     for( var i in fields ) {
       if( recordData[fields[i]] ) {
-        return getCleanCellValue( recordData[fields[i]], 1 );
+        return getCleanCellValue( recordData[fields[i]], position );
       }
     }
     return undefined;
@@ -94,7 +94,7 @@
   }
   
   function getRelationship(recordData) {
-    return checkMultipleFields( recordData, ["relationship to head of household", "relationship to head of household (standardized)"]).toLowerCase();
+    return checkMultipleFields( recordData, ["relationship to head of household", "relationship to head of household (standardized)"], 1 ).toLowerCase();
   }
   
   function getSpousesName(recordData) {
@@ -111,10 +111,10 @@
       // so we only look for the wife. If the wife is the head
       // of household it means the husband isn't there so returning
       // the wife will be undefined which means there is no spouse
-      if( relationship == "head" ) {
-        return getCleanCellValue( recordData['wife'], 1);
+      if( relationship == "head" || relationship == "self" ) {
+        return getCleanCellValue( recordData['wife'], 1 );
       } else if( relationship == "wife" ) {
-        return getCleanCellValue( recordData['head'], 1);
+        return checkMultipleFields( recordData, ['head', 'self'], 1 );
       }
     }
     
@@ -132,20 +132,20 @@
       var relationship = getRelationship(recordData);
       
       if( relationship == 'son' || relationship == 'daughter' ) {
-        var headGender = getCleanCellValue( recordData['head'], 2);
+        var headGender = checkMultipleFields( recordData, ['head', 'self'], 2 );
         
         if( parent == 'father' ) {
           
           // Check to see if the gender of the head of household is male
           if( headGender == 'M' ) {
-            return getCleanCellValue( recordData['head'], 1);
+            return checkMultipleFields( recordData, ['head', 'self'], 1 );
           }
         } else if( parent == 'mother' ) {
           
           // If the head of household is male, return the wife's name
           // If the head of household is female, return the head's name
           if( headGender == 'F' ) {
-            return getCleanCellValue( recordData['head'], 1);
+            return checkMultipleFields( recordData, ['head', 'self'], 1 );
           } else if( headGender == 'M' ) {
             return getCleanCellValue( recordData['wife'], 1);
           }
