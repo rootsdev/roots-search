@@ -1,14 +1,53 @@
 (function(rs){
 
+  var widgetWrap;
+  var alternateNamesRegex = /\[[^\[\]]*\]/g;
+
   /**
    * Setup the widget when the page loads.
    */
   $(document).ready(function(){
     if( $('#record-header').length == 1) {
-      console.log("we're going in");
       setup();
+      
+      /**
+       * Ancestry's suggested records block information is loaded
+       * via AJAX. I can't add anything to the block because it
+       * will be overwritten. Appending it afterwards has problems
+       * because the records block is set to "visibility: hidden"
+       * when empty, which hides it but doesn't remove it from the
+       * DOM flow. So our search block is left floating in an awkward
+       * spot. The only solution we have is to poll the block. If its
+       * set to "visibility: hidden" then we change it to "display: none"
+       * and add a top border to our block.
+       */
+      setTimeout(watchSuggestedRecords, 500);
     }
   });
+  
+  function watchSuggestedRecords() {
+    suggestedBlock = $('#RecordPageHints');
+    
+    // Check to see if the block has been inserted yet
+    if( suggestedBlock.length == 1 ) {
+      
+      // Is the visibility set to hidden?
+      if( suggestedBlock.css('visibility') == 'hidden' ) {
+        
+        // Hide it (remove from DOM flow)
+        suggestedBlock.hide();
+        
+        // Add top border to our widget block
+        widgetWrap.css({
+          borderTop: '1px solid #CDC7BE',
+          top: '2px'
+        });
+      }
+      
+    } else {
+      setTimeout(watchSuggestedRecords, 500);
+    }
+  }
   
   function setup() {
     
@@ -18,7 +57,7 @@
      * and be in a non-intrusive but useful location.
      */
      
-    var widgetWrap = $('<div id="RootsSearchWidget">')
+    widgetWrap = $('<div id="RootsSearchWidget">')
       .insertAfter( $('#RecordPageHints') )
       .css({ 
         position: 'relative',
@@ -58,19 +97,42 @@
     
     // Process the name
     if( recordData.name ) {
-      var nameParts = rs.splitName( $.trim( recordData.name.children().eq(1).text() ) );
+      // The regex replace removes alternate names which always appear surrounded by []
+      var nameParts = rs.splitName( $.trim( recordData.name.children().eq(1).text().replace(alternateNamesRegex, '') ) );
       personData.givenName = nameParts[0];
       personData.familyName = nameParts[1];
     }
     
     // Process estimated birth year
-    if( recordData['estimated birth year'] ) {
-      personData.birthDate = $.trim( recordData['estimated birth year'].children().eq(1).text() ).substr(4);
+    var birthInfo = checkMultipleFields( recordData, ['birth year', 'birth date', 'estimated birth year'] );
+    if( birthInfo ) {
+      personData.birthDate = $.trim( birthInfo.children().eq(1).text() ).replace('abt ','');
     }
     
     // Process the birthplace
     if( recordData.birthplace ) {
       personData.birthPlace = $.trim( recordData.birthplace.children().eq(1).text() );
+    }
+    
+    // Father's name
+    if( recordData["father's name"] ) {
+      var fatherNameParts = rs.splitName( $.trim( recordData["father's name"].children().eq(1).text().replace(alternateNamesRegex, '') ) );
+      personData.fatherGivenName = fatherNameParts[0];
+      personData.fatherFamilyName = fatherNameParts[1];
+    }
+    
+    // Mother's name
+    if( recordData["mother's name"] ) {
+      var motherNameParts = rs.splitName( $.trim( recordData["mother's name"].children().eq(1).text().replace(alternateNamesRegex, '') ) );
+      personData.motherGivenName = motherNameParts[0];
+      personData.motherFamilyName = motherNameParts[1];
+    }
+    
+    // Spouse's name
+    if( recordData["spouse's name"] ) {
+      var spouseNameParts = rs.splitName( $.trim( recordData["spouse's name"].children().eq(1).text().replace(alternateNamesRegex, '') ) );
+      personData.spouseGivenName = spouseNameParts[0];
+      personData.spouseFamilyName = spouseNameParts[1];
     }
     
     /**
@@ -85,10 +147,15 @@
         'href': link.url
       }).html(link.text).appendTo( $('<div>').css('margin', '8px 0px').appendTo(linksWrap) );
     });
-     
-    /**
-     * We recommend examining other widgets to get a better idea of how things work.
-     */
+  }
+  
+  function checkMultipleFields( recordData, fields ) {
+    for(var j in fields) {
+      if( recordData[fields[j]] ) {
+        return recordData[fields[j]];
+      }
+    }
+    return undefined;
   }
 
 }(rs));
