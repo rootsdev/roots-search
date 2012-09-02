@@ -37,7 +37,7 @@
     var personData = {
       'givenName': nameParts[0],
       'familyName': nameParts[1],
-      'birthDate': checkMultipleFields( recordData, ['birth date', 'birthdate', 'estimated birth year', 'estimated birth date'], 1 ),
+      'birthDate': checkMultipleFields( recordData, ['birth date', 'birthdate', 'estimated birth year', 'estimated birth date', 'baptism/christening date'], 1 ),
       'birthPlace': checkMultipleFields( recordData, ['birthplace', 'place of birth'], 1 ),
       'deathDate': getCleanCellValue( recordData['death date'], 1 ),
       'deathPlace': getCleanCellValue( recordData['death place'], 1 )
@@ -80,7 +80,10 @@
   function checkMultipleFields( recordData, fields, position ) {
     for( var i in fields ) {
       if( recordData[fields[i]] ) {
-        return getCleanCellValue( recordData[fields[i]], position );
+        var val = getCleanCellValue( recordData[fields[i]], position );
+        if( val ) {
+          return val;
+        }
       }
     }
     return undefined;
