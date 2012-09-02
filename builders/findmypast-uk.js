@@ -14,7 +14,7 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  rs.registerLinkBuilder('findmypast-us', createUrl);
+  rs.registerLinkBuilder('findmypast-uk', createUrl);
 
   /**
    * The function which you register as your builder
@@ -24,35 +24,29 @@
    **/
   function createUrl(pd) {    
     
-    var url = 'http://www.findmypast.com/search?region=all';  
+    var url = 'http://www.findmypast.co.uk/search/all-records/results?';
+    var query = '';
     
     if( pd.givenName ) {
-      url = addQueryParam( url, 'firstname', pd.givenName );
-      url = addQueryParam( url, 'firstname_variants', 'true' );
+      query = addQueryParam( query, 'forename', pd.givenName );
+      query = addQueryParam( query, '_includeForenameVariants', 'on' );
     }
     if( pd.familyName ) {
-      url = addQueryParam( url, 'lastname', pd.familyName );
-      url = addQueryParam( url, 'lastname_variants', 'true' );
+      query = addQueryParam( query, 'surname', pd.familyName );
+      query = addQueryParam( query, '_includeSurnameVariants', 'on' );
     }
     
-    // findmypast.com takes in an event range
-    // We should start 10 years before birth and 
-    // go until 10 years after death or 50 years
-    // after birth
-    
     if( pd.birthDate ) {
-      var startYear = (new Date(pd.birthDate)).getFullYear() - 10;
-      var endYear = startYear + 60;
-      if( pd.deathDate ) {
-        endYear = (new Date(pd.deathDate)).getFullYear() + 10;
-      }
-      url = addQueryParam( url, 'eventyear', startYear );
-      url = addQueryParam( url, 'eventyear_offset', endYear );
+      query = addQueryParam( query, 'fromYear', (new Date(pd.birthDate)).getFullYear() );
+    }
+    
+    if( pd.deathDate ) {
+      query = addQueryParam( query, 'toYear', (new Date(pd.deathDate)).getFullYear() );
     }
     
     return {
-      'text': 'Findmypast - US',
-      'url': url
+      'text': 'Findmypast - UK',
+      'url': url + query.slice(1) // remove leading &
     };
   }
   

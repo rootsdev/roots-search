@@ -21,6 +21,7 @@
         "roots-search.js",
         "builders/ancestry.js",
         "builders/familysearch.js",
+        "builders/findmypast-uk.js",
         "builders/findmypast-us.js",
         "builders/werelate.js"
       ]
