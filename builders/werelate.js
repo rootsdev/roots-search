@@ -3,7 +3,7 @@
   rs.registerLinkBuilder('werelate', createUrl);
 
   function createUrl(pd) {
-    var baseUrl = 'http://www.werelate.org/wiki/Special:Search?sort=score&ns=Person&a=&st=&hg=&hs=&wg=&ws=&md=&mr=0&mp=&pn=&li=&su=&sa=&t=&k=&rows=20&ecp=p';
+    var baseUrl = 'http://www.werelate.org/wiki/Special:Search?sort=score&ns=Person&rows=20&ecp=p';
     var query = '';
     
     // Simple mappings from the person data object to ancestry params

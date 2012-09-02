@@ -24,7 +24,7 @@
    **/
   function createUrl(pd) {    
     
-    var url = 'http://www.findmypast.com/search?region=all';  
+    var url = 'http://www.findmypast.com/search?region=United%20States';  
     
     if( pd.givenName ) {
       url = addQueryParam( url, 'firstname', pd.givenName );
