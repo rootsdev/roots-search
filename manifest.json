@@ -20,6 +20,7 @@
         "jquery.js", 
         "roots-search.js",
         "builders/ancestry.js",
+        "builders/billiongraves.js",
         "builders/familysearch.js",
         "builders/findagrave.js",
         "builders/findmypast-uk.js",

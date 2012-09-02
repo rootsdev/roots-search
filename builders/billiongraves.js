@@ -14,7 +14,7 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  rs.registerLinkBuilder('findagrave', createUrl);
+  rs.registerLinkBuilder('billiongraves', createUrl);
 
   /**
    * The function which you register as your builder
@@ -24,28 +24,28 @@
    **/
   function createUrl(pd) {    
     
-    var url = 'http://www.findagrave.com/cgi-bin/fg.cgi?page=gsr&GScntry=0&GSst=0&GSgrid=&df=all&GSob=n';
+    var url = 'http://billiongraves.com/pages/search/index.php#year_range=5&lim=0&num=20&action=search&exact=false&country=0&state=0&county=0';
     var query = '';
     
+    'given_names=alma&family_names=clark&birth_year=1910&death_year=1999'
+    
     if( pd.givenName ) {
-      query = addQueryParam( query, 'GSfn', pd.givenName );
+      query = addQueryParam( query, 'given_names', pd.givenName );
     }
     if( pd.familyName ) {
-      query = addQueryParam( query, 'GSln', pd.familyName );
+      query = addQueryParam( query, 'family_names', pd.familyName );
     }
     
     if( pd.birthDate ) {
-      query = addQueryParam( query, 'GSbyrel', 'in' );
-      query = addQueryParam( query, 'GSby', (new Date(pd.birthDate)).getFullYear() );
+      query = addQueryParam( query, 'birth_year', (new Date(pd.birthDate)).getFullYear() );
     }
     
     if( pd.deathDate ) {
-      query = addQueryParam( query, 'GSdyrel', 'in' );
-      query = addQueryParam( query, 'GSdy', (new Date(pd.deathDate)).getFullYear() );
+      query = addQueryParam( query, 'death_year', (new Date(pd.deathDate)).getFullYear() );
     }
     
     return {
-      'text': 'Find A Grave',
+      'text': 'Billion Graves',
       'url': url + query
     };
   }
