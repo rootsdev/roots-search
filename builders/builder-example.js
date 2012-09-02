@@ -47,11 +47,11 @@
      * into a function (addQueryParam in this example). It makes 
      * the code a lot cleaner.
      */
-    if( pd.firstName ) {
-      query = addQueryParam( query, 'first-name', pd.firstName );
+    if( pd.givenName ) {
+      query = addQueryParam( query, 'first-name', pd.givenName );
     }
-    if( pd.lastName ) {
-      query = addQueryParam( query, 'last-name', pd.firstName );
+    if( pd.familyName ) {
+      query = addQueryParam( query, 'last-name', pd.familyName );
     }
     
     /**
@@ -75,7 +75,7 @@
     if( query ) {
       query += '&';
     }
-    return query += name + '=' + encodeURIComponent( pd.lastName );
+    return query += name + '=' + encodeURIComponent( value );
   }
 
 }(rs));
