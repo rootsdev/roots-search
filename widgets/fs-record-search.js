@@ -32,7 +32,13 @@
       }
     });
     
-    var nameParts = rs.splitName( getCleanCellValue( recordData['name'], 1 ) );
+    var nameParts = ['',''];
+    if( recordData['first name'] ) {
+      nameParts = [ getCleanCellValue( recordData['first name'], 1 ) , getCleanCellValue( recordData['last name'], 1 ) ];
+    } 
+    else if(recordData['name']) {
+      nameParts = rs.splitName( getCleanCellValue( recordData['name'], 1 ) );
+    }
     
     var personData = {
       'givenName': nameParts[0],
