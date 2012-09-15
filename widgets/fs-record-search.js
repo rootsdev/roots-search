@@ -1,4 +1,4 @@
-(function(rs, undefined){
+(function(utils, undefined){
   
   var hasFamilyTable = $('.result-data .household-label').length > 0;
   
@@ -7,16 +7,6 @@
   });
   
   function setup() {
-    
-    /**
-     * First we setup the widget container. Choose carefully where to
-     * put the search links. The widget should use the site's style
-     * and be in a non-intrusive but useful location.
-     */
-     
-    var searchTrigger = $('<li class="rs-search-tool"><a href="#">SEARCH</a></li>').appendTo( $('.global-toolbar .toolset') );
-    var flyout = $('<nav class="flyout share-flyout"><div class="flyout-direction"><div></div></div></nav>').appendTo(searchTrigger);
-    var linksList = $('<ul>').prependTo(flyout);
     
     // Process the table rows of the record data
     // The first cell in each row becomes the key
@@ -37,7 +27,7 @@
       nameParts = [ getCleanCellValue( recordData['first name'], 1 ) , getCleanCellValue( recordData['last name'], 1 ) ];
     } 
     else if(recordData['name']) {
-      nameParts = rs.splitName( getCleanCellValue( recordData['name'], 1 ) );
+      nameParts = utils.splitName( getCleanCellValue( recordData['name'], 1 ) );
     }
     
     var personData = {
@@ -52,7 +42,7 @@
     // Look for a spouse
     var spouseName = getSpousesName(recordData);
     if( spouseName ) {
-      var spouseNameParts = rs.splitName( spouseName );
+      var spouseNameParts = utils.splitName( spouseName );
       personData['spouseGivenName'] = spouseNameParts[0];
       personData['spouseFamilyName'] = spouseNameParts[1];
     }
@@ -60,7 +50,7 @@
     // Look for a mother
     var motherName = getParentName(recordData, 'mother');
     if( motherName ) {
-      var motherNameParts = rs.splitName( motherName );
+      var motherNameParts = utils.splitName( motherName );
       personData['motherGivenName'] = motherNameParts[0];
       personData['motherFamilyName'] = motherNameParts[1];
     }
@@ -68,15 +58,14 @@
     // Look for a father
     var fatherName = getParentName(recordData, 'father');
     if( fatherName ) {
-      var fatherNameParts = rs.splitName( fatherName );
+      var fatherNameParts = utils.splitName( fatherName );
       personData['fatherGivenName'] = fatherNameParts[0];
       personData['fatherFamilyName'] = motherNameParts[1];
     }
     
-    var linkData = rs.executeLinkBuilders(personData);
-     
-    $.each(linkData, function(i, link) {
-      linksList.append( '<li><a href="'+link.url+'" target="_blank">'+link.text.toUpperCase()+'</a></li>' );
+    chrome.extension.sendRequest({
+      'type': 'person_info',
+      'data': personData
     });
 
   }
@@ -165,4 +154,4 @@
     return undefined;
   }
 
-}(rs));
+}(utils));

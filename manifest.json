@@ -2,12 +2,27 @@
   "manifest_version": 2,
   "description": "Roots Search connects popular genealogy websites by providing search links when viewing records or people. For example, when viewing a person in your tree on FamilySearch, this extension will add links to the page for searching for that same person on Ancestry, WeRelate, FamilySearch itself, and more. This removes the need to copy and paste lots of information when searching on multiple websites.",
   "name": "Roots Search",
-  "version": "2.2.2",
-  "permissions": [ 
-    "https://familysearch.org/*",
-    "http://www.werelate.org/wiki/Person:*",
-    "http://search.ancestry.com/cgi-bin/sse.dll*"
-  ],
+  "version": "3.0",
+  "permissions": [ "tabs" ],
+  "background": { 
+    "scripts": [ 
+      "jquery.js", 
+      "roots-search.js",
+      "utils.js",
+      "builders/ancestry.js",
+      "builders/billiongraves.js",
+      "builders/familysearch.js",
+      "builders/findagrave.js",
+      "builders/findmypast-uk.js",
+      "builders/findmypast-us.js",
+      "builders/werelate.js"    
+    ] 
+  },
+  "page_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Roots Search"
+  },
   "content_scripts": [
     {
       "matches": [ 
@@ -18,14 +33,7 @@
       "run_at": "document_end",
       "js": [ 
         "jquery.js", 
-        "roots-search.js",
-        "builders/ancestry.js",
-        "builders/billiongraves.js",
-        "builders/familysearch.js",
-        "builders/findagrave.js",
-        "builders/findmypast-uk.js",
-        "builders/findmypast-us.js",
-        "builders/werelate.js"
+        "utils.js"
       ]
     },
     {
@@ -35,9 +43,6 @@
       "run_at": "document_end",
       "js": [
         "widgets/fs-record-search.js"
-      ],
-      "css": [
-        "widgets/fs-record-search.css"
       ]
     },
     {
@@ -47,9 +52,6 @@
       "run_at": "document_end",
       "js": [
         "widgets/fs-familytree-ancestor-search.js"
-      ],
-      "css": [
-        "widgets/fs-familytree-ancestor-search.css"
       ]
     },
     {
@@ -59,9 +61,6 @@
       "run_at": "document_end",
       "js": [
         "widgets/werelate-person-search.js"
-      ],
-      "css": [
-        "widgets/werelate-person-search.css"
       ]
     },
     {
@@ -71,9 +70,6 @@
       "run_at": "document_end",
       "js": [
         "widgets/ancestry-record-search.js"
-      ],
-      "css": [
-        "widgets/ancestry-record-search.css"
       ]
     }
   ]

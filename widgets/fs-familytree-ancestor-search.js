@@ -1,45 +1,33 @@
-(function(rs, undefined){
+(function(utils, undefined){
   
-  var widgetBuilt = false;
+  var activated = false;
   
-  // DOM references for the search gadget on the person page
-  var searchGadget, linksWrapper, loader;
-  
-  // Have the setup function called when the hash changes.
+  // Have the verify function called when the hash changes.
   // We need the opportunity to build the search widget
   // later if we don't start on the ancestor view
   $(document).ready(function(){
-    window.onhashchange = setup;
+    window.onhashchange = verify;
     
-    setup()
+    verify()
   });
   
   // Builds the search widget if we're on the ancestor view
-  function setup() {
-    if ( rs.getHashParts()['view'] == 'ancestor' ) {
-      buildPersonSearchWidget();
+  function verify() {
+    if ( utils.getHashParts()['view'] == 'ancestor' ) {
+      setup();
     }
   }
   
   // Remove the widget if we navigate away from an 
   // ancestor view on a hashchange (no page reload)
-  function teardownWidget() {
-    searchGadget.remove();
-    searchGadget = linksWrapper = loader = undefined;
-    widgetBuilt = false;
-    window.onhashchange = setup;
+  function teardown() {
+    activated = false;
+    window.onhashchange = verify;
   }
 
   // Builds the search widget on the person page
-  function buildPersonSearchWidget() {
-    var self = this;
-    
-    widgetBuilt = true;
-    
-    // Create widget
-    searchGadget = $('<div id="recordSearchGadget" class="changeLogGadget summary"><h5>Record Search</h5></div>').prependTo('.sideBar');
-    linksWrapper = $('<div id="searchLinkWrap" />').appendTo(searchGadget);
-    loader = $('<img id="searchLinkSpinner" src="https://familysearch.org/gadgetrepo/org/familysearch/gadget/gadget-core/1.x/shared/images/spinnerOnTan.gif" />').appendTo(searchGadget);
+  function setup() {
+    activated = true;
     
     // Bind to hashchange event
     window.onhashchange = processPersonHash;
@@ -54,7 +42,7 @@
     // Remove previous search links and show the ajax loader
     linksWrapper.html('');
     loader.show();
-    var hashParts = rs.getHashParts();
+    var hashParts = utils.getHashParts();
     
     if( hashParts['view'] == 'ancestor' ) {
       
@@ -73,28 +61,18 @@
           relationships = relationships[0];
           var normalizedData = normalizeData(summary, relationships);
           
-          // Setup urls
-          createPersonSearchLinks(rs.executeLinkBuilders(normalizedData));
-          loader.hide();
+          chrome.extension.sendRequest({
+            'type': 'person_info',
+            'data': personData
+          });
         }); 
       }
     } 
     
     // If we're no longer viewing an ancestor, teardown the widget
     else {
-      teardownWidget();
+      teardown();
     }
-  }
-  
-  // Adds the search links to the person gadget
-  function createPersonSearchLinks(linkData) {
-    // Add the links to the widget
-    $.each(linkData, function(i, link) {
-      $('<a>').addClass('changeType').attr({
-        'target': '_blank',
-        'href': link.url
-      }).html(link.text).appendTo(linksWrapper);
-    });
   }
   
   function normalizeData(summary, relationships) {
@@ -105,16 +83,16 @@
     
     // Process parents if there is a relationship
     if( relationships.data.parents.length ) {
-      var fatherName = rs.splitName(relationships.data.parents[0].husband.name);
-      var motherName = rs.splitName(relationships.data.parents[0].wife.name);
+      var fatherName = utils.splitName(relationships.data.parents[0].husband.name);
+      var motherName = utils.splitName(relationships.data.parents[0].wife.name);
     }
     
     // Process spouse if there is a spouse relationship
     if(relationships.data.spouses.length) {
       if(gender == 'MALE' && relationships.data.spouses[0].wife) {
-        spouseName = rs.splitName(relationships.data.spouses[0].wife.name);
+        spouseName = utils.splitName(relationships.data.spouses[0].wife.name);
       } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
-        spouseName = rs.splitName(relationships.data.spouses[0].husband.name);
+        spouseName = utils.splitName(relationships.data.spouses[0].husband.name);
       }
     }
     
@@ -153,4 +131,4 @@
       url += '?spouseId='+spouseId;
     return $.getJSON(url);
   }
-}(rs));
+}(utils));

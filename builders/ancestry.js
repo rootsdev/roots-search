@@ -1,4 +1,4 @@
-(function(rs){
+(function(rs, utils){
 
   rs.registerLinkBuilder('ancestry', createUrl);
 
@@ -28,9 +28,9 @@
     });
     
     // Process dates
-    query = addQueryParam(query, 'msbdy', rs.getYear(pd.birthDate));
-    query = addQueryParam(query, 'msddy', rs.getYear(pd.deathDate));
-    query = addQueryParam(query, 'msgdy', rs.getYear(pd.marriageDate));
+    query = addQueryParam(query, 'msbdy', utils.getYear(pd.birthDate));
+    query = addQueryParam(query, 'msddy', utils.getYear(pd.deathDate));
+    query = addQueryParam(query, 'msgdy', utils.getYear(pd.marriageDate));
     
     return {
       'text': 'Ancestry',
@@ -45,4 +45,4 @@
     return query;
   }
 
-}(rs));
+}(rs, utils));
