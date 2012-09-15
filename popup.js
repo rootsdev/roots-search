@@ -9,7 +9,11 @@ $(document).ready(function(){
     
     var searchLinks = bgPage.rs.executeLinkBuilders(personInfo);
     
-    $('#print').html(JSON.stringify(searchLinks));
+    $.each(searchLinks, function(i, link){
+      $('<div>')
+        .appendTo('#search-links')
+        .append( $('<a target="_blank">').html(link.text).attr('href', link.url) );
+    });
   });
   
 });
