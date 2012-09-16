@@ -1,3 +1,15 @@
 body {
-  width: 300px;
+  width: 320px;
+}
+
+#form {
+  overflow: auto;
+}
+
+.field-wrap {
+  float: left;
+}
+
+.field-label {
+  
 }

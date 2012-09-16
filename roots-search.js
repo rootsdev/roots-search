@@ -1,10 +1,10 @@
-var personInfoObjects = {};
+var personDataObjects = {};
 
 chrome.extension.onRequest.addListener(function(request, sender) {
 
   if( request.type == "person_info" ) {
     chrome.pageAction.show(sender.tab.id);
-    personInfoObjects[sender.tab.id] = request.data;
+    personDataObjects[sender.tab.id] = request.data;
   }
   
 });
