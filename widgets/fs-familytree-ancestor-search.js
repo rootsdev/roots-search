@@ -23,6 +23,9 @@
   function teardown() {
     activated = false;
     window.onhashchange = verify;
+    chrome.extension.sendRequest({
+      'type': 'hide'
+    });
   }
 
   // Builds the search widget on the person page
@@ -40,8 +43,6 @@
   function processPersonHash() {    
     
     // Remove previous search links and show the ajax loader
-    linksWrapper.html('');
-    loader.show();
     var hashParts = utils.getHashParts();
     
     if( hashParts['view'] == 'ancestor' ) {
@@ -59,7 +60,7 @@
           // Get actual return data
           summary = summary[0];
           relationships = relationships[0];
-          var normalizedData = normalizeData(summary, relationships);
+          var personData = normalizeData(summary, relationships);
           
           chrome.extension.sendRequest({
             'type': 'person_info',

@@ -7,6 +7,10 @@ chrome.extension.onRequest.addListener(function(request, sender) {
     personDataObjects[sender.tab.id] = request.data;
   }
   
+  else if( request.type == "hide" ) {
+    chrome.pageAction.hide(sender.tab.id);
+  }
+  
 });
 
 // rs will be an object in the global namespace.
