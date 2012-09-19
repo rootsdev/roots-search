@@ -1,7 +1,6 @@
 body {
   width: 500px;
   font-family: arial;
-  background-color: #EDF6F7;
 }
 
 #form {
@@ -9,7 +8,6 @@ body {
   width: 320px;
   float: left;
   font-size: 12px;
-  border-right: 1px solid #CCC;
   padding-right: 20px;
 }
 
@@ -29,8 +27,8 @@ body {
 
 #search-links {
   float: left;
-  padding-left: 25px;
-  padding-top: 20px;
+  padding: 20px;
+  background-color: #EDF6F7;
 }
 
 .link-wrap {
@@ -54,14 +52,14 @@ body {
 
 #update-button {
   border-radius: 5px;
-  background-color: #06C;
+  background-color: #69C;
   color: white;
-  border: 1px solid #06C;
+  border: 1px solid #69C;
   padding: 5px;
 }
 
 #update-button:hover {
   cursor: pointer;
-  background-color: #69F;
-  border: 1px solid #69F;
+  background-color: #06C;
+  border: 1px solid #06C;
 }
