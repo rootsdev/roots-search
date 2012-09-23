@@ -41,7 +41,7 @@ function fillForm(personData) {
 function updateLinks() {
   
   // Delete previous links and show ajax loader for a moment
-  $('#search-links').html('<img class="loader" src="../images/ajax-loader.gif">');
+  $('#search-links .btn').addClass('disabled');
   
   setTimeout(buildLinks, 300);
   
