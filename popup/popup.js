@@ -11,22 +11,15 @@ $(document).ready(function(){
     
     fillForm(personData);
     
-    activateUpdateButton();
-    $('input').change(activateUpdateButton);
+    $('#update-button').attr('disabled', false).click(function(){
+      updateLinks();
+    });
     
     updateLinks();
     
   });
   
 });
-
-function activateUpdateButton() {
-  
-  $('#update-button').attr('disabled', false).click(function(){
-    updateLinks();
-  });
-
-}
 
 function fillForm(personData) {
   $('#first-name').val(personData.givenName);
@@ -46,9 +39,6 @@ function fillForm(personData) {
 }
 
 function updateLinks() {
-
-  // Disable the update button
-  $('#update-button').attr('disabled', 'disabled').off('click');
   
   // Delete previous links and show ajax loader for a moment
   $('#search-links').html('<img class="loader" src="../images/ajax-loader.gif">');
