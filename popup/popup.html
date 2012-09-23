@@ -5,7 +5,9 @@
     <link href="popup.css" rel="stylesheet" type="text/css">
   </head>
   <body>
+    <h1 style="text-align:center;font-weight:normal;color:#333;">RootsSearch</h1>
     <div id="form">
+      <!-- <div class="title">Person Details</div> -->
       <div class="field-wrap">
         <div class="field-label">First Name</div>
         <input id="first-name" type="text" />
@@ -63,9 +65,12 @@
         <input id="mother-last-name" type="text" />
       </div>
     </div>
-    <div id="search-links"></div>
+    <div id="search-links-col">
+      <!-- <div class="title">Search</div> -->
+      <div id="search-links"></div>
+    </div>
     <div id="update-button-wrap">
-      <button id="update-button">Update Links</button>
+      <button id="update-button" class="button">Update Links</button>
     </div>
     <script src="../includes/jquery.js"></script>
     <script src="popup.js"></script>

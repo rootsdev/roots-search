@@ -11,16 +11,22 @@ $(document).ready(function(){
     
     fillForm(personData);
     
+    activateUpdateButton();
+    $('input').change(activateUpdateButton);
+    
     updateLinks();
     
   });
   
-  // Bind the click event to the update button
-  $('#update-button').click(function(){
+});
+
+function activateUpdateButton() {
+  
+  $('#update-button').removeClass('disabled').click(function(){
     updateLinks();
   });
-  
-});
+
+}
 
 function fillForm(personData) {
   $('#first-name').val(personData.givenName);
@@ -40,9 +46,18 @@ function fillForm(personData) {
 }
 
 function updateLinks() {
+
+  // Disable the update button
+  $('#update-button').addClass('disabled').off('click');
   
-  // Delete previous links
-  $('#search-links').html('');
+  // Delete previous links and show ajax loader for a moment
+  $('#search-links').html('<img class="loader" src="../images/ajax-loader.gif">');
+  
+  setTimeout(buildLinks, 300);
+  
+}
+
+function buildLinks() {
   
   var personData = {
     givenName: $('#first-name').val(),
@@ -63,11 +78,10 @@ function updateLinks() {
   
   var searchLinks = bgPage.rs.executeLinkBuilders(personData);
   
+  // Remove ajax loader and add search links
+  $('#search-links').html('');
   $.each(searchLinks, function(i, link){
-    $('<div>')
-      .addClass('link-wrap')
-      .appendTo('#search-links')
-      .append( $('<a target="_blank">').html(link.text).attr('href', link.url) );
+      $('<a target="_blank">').addClass('button').html(link.text).attr('href', link.url).appendTo('#search-links');
   });
   
 }
