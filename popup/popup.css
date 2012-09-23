@@ -13,7 +13,7 @@ body {
   margin-top: 0;
   padding: .25em 0;
   background-color: #49AFCD;
-  text-shadow: 1px 1px 1px #888;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
 #form {
