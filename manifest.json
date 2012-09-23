@@ -6,9 +6,9 @@
   "permissions": [ "tabs" ],
   "background": { 
     "scripts": [ 
-      "jquery.js", 
-      "roots-search.js",
-      "utils.js",
+      "background.js",
+	  "includes/jquery.js", 
+      "includes/utils.js",
       "builders/ancestry.js",
       "builders/billiongraves.js",
       "builders/familysearch.js",
@@ -20,7 +20,7 @@
   },
   "page_action": {
     "default_icon": "images/icon.png",
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_title": "Roots Search"
   },
   "content_scripts": [
@@ -32,8 +32,8 @@
       ],
       "run_at": "document_end",
       "js": [ 
-        "jquery.js", 
-        "utils.js"
+        "includes/jquery.js", 
+        "includes/utils.js"
       ]
     },
     {
