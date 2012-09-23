@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 function activateUpdateButton() {
   
-  $('#update-button').removeClass('disabled').click(function(){
+  $('#update-button').attr('disabled', false).click(function(){
     updateLinks();
   });
 
@@ -48,7 +48,7 @@ function fillForm(personData) {
 function updateLinks() {
 
   // Disable the update button
-  $('#update-button').addClass('disabled').off('click');
+  $('#update-button').attr('disabled', 'disabled').off('click');
   
   // Delete previous links and show ajax loader for a moment
   $('#search-links').html('<img class="loader" src="../images/ajax-loader.gif">');
@@ -81,7 +81,7 @@ function buildLinks() {
   // Remove ajax loader and add search links
   $('#search-links').html('');
   $.each(searchLinks, function(i, link){
-      $('<a target="_blank">').addClass('button').html(link.text).attr('href', link.url).appendTo('#search-links');
+      $('<a target="_blank">').addClass('btn btn-info').html(link.text).attr('href', link.url).appendTo('#search-links');
   });
   
 }

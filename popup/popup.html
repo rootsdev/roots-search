@@ -3,74 +3,77 @@
   <head>
     <title>Roots Search</title>
     <link href="popup.css" rel="stylesheet" type="text/css">
+    <link href="bootstrap.min.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <h1 style="text-align:center;font-weight:normal;color:#333;">RootsSearch</h1>
-    <div id="form">
-      <!-- <div class="title">Person Details</div> -->
-      <div class="field-wrap">
-        <div class="field-label">First Name</div>
-        <input id="first-name" type="text" />
+    <div class="row">
+      <div class="span4">
+        <div id="form" class="row">
+          <div class="field-wrap span2">
+            <div class="field-label">First Name</div>
+            <input class="span2" id="first-name" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Last Name</div>
+            <input class="span2" id="last-name" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Birth Date</div>
+            <input class="span2" id="birth-date" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Birth Place</div>
+            <input class="span2" id="birth-place" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Death Date</div>
+            <input class="span2" id="death-date" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Death Place</div>
+            <input class="span2" id="death-place" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Spouse First Name</div>
+            <input class="span2" id="spouse-first-name" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Spouse Last Name</div>
+            <input class="span2" id="spouse-last-name" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Marriage Date</div>
+            <input class="span2" id="marriage-date" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Marriage Place</div>
+            <input class="span2" id="marriage-place" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Father First Name</div>
+            <input class="span2" id="father-first-name" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Father Last Name</div>
+            <input class="span2" id="father-last-name" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Mother First Name</div>
+            <input class="span2" id="mother-first-name" type="text" />
+          </div>
+          <div class="field-wrap span2">
+            <div class="field-label">Mother Last Name</div>
+            <input class="span2" id="mother-last-name" type="text" />
+          </div>
+        </div>
       </div>
-      <div class="field-wrap">
-        <div class="field-label">Last Name</div>
-        <input id="last-name" type="text" />
+      <div class="span2">
+        <div id="search-links"></div>
       </div>
-      <div class="field-wrap">
-        <div class="field-label">Birth Date</div>
-        <input id="birth-date" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Birth Place</div>
-        <input id="birth-place" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Death Date</div>
-        <input id="death-date" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Death Place</div>
-        <input id="death-place" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Spouse First Name</div>
-        <input id="spouse-first-name" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Spouse Last Name</div>
-        <input id="spouse-last-name" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Marriage Date</div>
-        <input id="marriage-date" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Marriage Place</div>
-        <input id="marriage-place" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Father First Name</div>
-        <input id="father-first-name" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Father Last Name</div>
-        <input id="father-last-name" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Mother First Name</div>
-        <input id="mother-first-name" type="text" />
-      </div>
-      <div class="field-wrap">
-        <div class="field-label">Mother Last Name</div>
-        <input id="mother-last-name" type="text" />
-      </div>
-    </div>
-    <div id="search-links-col">
-      <!-- <div class="title">Search</div> -->
-      <div id="search-links"></div>
     </div>
     <div id="update-button-wrap">
-      <button id="update-button" class="button">Update Links</button>
+      <button id="update-button" class="btn">Update Links</button>
     </div>
     <script src="../includes/jquery.js"></script>
     <script src="popup.js"></script>
