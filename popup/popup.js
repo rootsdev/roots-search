@@ -1,6 +1,34 @@
+String.prototype.toProperCase = function () {
+  return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
+
 var bgPage;
+var mappings = [
+  ['givenName', 'first-name'],
+  ['familyName', 'last-name'],
+  ['birthDate', 'birth-date'],
+  ['birthPlace', 'birth-place'],
+  ['deathDate', 'death-date'],
+  ['deathPlace', 'death-place'],
+  ['spouseGivenName', 'spouse-first-name'],
+  ['spouseFamilyName', 'spouse-last-name'],
+  ['marriageDate', 'marriage-date'],
+  ['marriagePlace', 'marriage-place'],
+  ['fatherGivenName', 'father-first-name'],
+  ['fatherFamilyName', 'father-last-name'],
+  ['motherGivenName', 'mother-first-name'],
+  ['motherFamilyName', 'mother-last-name']
+];
 
 $(document).ready(function(){
+  
+  // Create input fields
+  $.each(mappings, function(i, vals){
+    var fieldWrap = $('<div>').addClass('field-wrap span2')
+      .append( $('<div>').addClass('field-label').html(vals[1].replace(/\-/g,' ').toProperCase()) )
+      .append( $('<input>').addClass('span2').attr({'id': vals[1], 'type': 'text'}) )
+      .appendTo('#form');
+  });
   
   // Get the id of the tab
   chrome.tabs.query({active: true}, function(tabs){
@@ -22,20 +50,9 @@ $(document).ready(function(){
 });
 
 function fillForm(personData) {
-  $('#first-name').val(personData.givenName);
-  $('#last-name').val(personData.familyName);
-  $('#birth-date').val(personData.birthDate);
-  $('#birth-place').val(personData.birthPlace);
-  $('#death-date').val(personData.deathDate);
-  $('#death-place').val(personData.deathPlace);
-  $('#spouse-first-name').val(personData.spouseGivenName);
-  $('#spouse-last-name').val(personData.spouseFamilyName);
-  $('#marriage-date').val(personData.marriageDate);
-  $('#marriage-place').val(personData.marriagePlace);
-  $('#father-first-name').val(personData.fatherGivenName);
-  $('#father-last-name').val(personData.fatherFamilyName);
-  $('#mother-first-name').val(personData.motherGivenName);
-  $('#mother-last-name').val(personData.motherFamilyName);
+  $.each(mappings, function(i, vals){
+    $('#'+vals[1]).val(personData[vals[0]]);
+  });
 }
 
 function updateLinks() {
@@ -49,22 +66,10 @@ function updateLinks() {
 
 function buildLinks() {
   
-  var personData = {
-    givenName: $('#first-name').val(),
-    familyName: $('#last-name').val(),
-    birthDate: $('#birth-date').val(),
-    birthPlace: $('#birth-place').val(),
-    deathDate: $('#death-date').val(),
-    deathPlace: $('#death-place').val(),
-    spouseGivenName: $('#spouse-first-name').val(),
-    spouseFamilyName: $('#spouse-last-name').val(),
-    marriageDate: $('#marriage-date').val(),
-    marriagePlace: $('#marriage-place').val(),
-    fatherGivenName: $('#father-first-name').val(),
-    fatherFamilyName: $('#father-last-name').val(),
-    motherGivenName: $('#mother-first-name').val(),
-    motherFamilyName: $('#mother-last-name').val()
-  };
+  var personData = {};
+  $.each(mappings, function(i, vals){
+    personData[vals[0]] = $('#'+vals[1]).val();
+  });
   
   var searchLinks = bgPage.rs.executeLinkBuilders(personData);
   
