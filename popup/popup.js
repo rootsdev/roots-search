@@ -24,9 +24,14 @@ $(document).ready(function(){
   
   // Create input fields
   $.each(mappings, function(i, vals){
+    var properLabel = vals[1].replace(/\-/g,' ').toProperCase();
     var fieldWrap = $('<div>').addClass('field-wrap span2')
-      .append( $('<div>').addClass('field-label').html(vals[1].replace(/\-/g,' ').toProperCase()) )
-      .append( $('<input>').addClass('span2').attr({'id': vals[1], 'type': 'text'}) )
+      .append( $('<div>').addClass('field-label').html(properLabel) )
+      .append( 
+        $('<input>').addClass('span2').attr({'id': vals[1], 'type': 'text'}).change(function(){
+          _gaq.push(['_trackEvent', 'Data', 'Change', properLabel]);
+        })        
+      )
       .appendTo('#form');
   });
   
@@ -40,6 +45,7 @@ $(document).ready(function(){
     fillForm(personData);
     
     $('#update-button').attr('disabled', false).click(function(){
+      _gaq.push(['_trackEvent', 'Data', 'Update Links']);
       updateLinks();
     });
     
@@ -76,7 +82,9 @@ function buildLinks() {
   // Remove ajax loader and add search links
   $('#search-links').html('');
   $.each(searchLinks, function(i, link){
-      $('<a target="_blank">').addClass('btn btn-info').html(link.text).attr('href', link.url).appendTo('#search-links');
+      $('<a target="_blank">').addClass('btn btn-info').html(link.text).attr('href', link.url).appendTo('#search-links').click(function(){
+        _gaq.push(['_trackEvent', 'Links', 'Click', link.text]);
+      });
   });
   
 }
