@@ -2,7 +2,7 @@ String.prototype.toProperCase = function () {
   return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
-var bgPage;
+var bgPage, tabId;
 var mappings = [
   ['givenName', 'first-name'],
   ['familyName', 'last-name'],
@@ -30,6 +30,7 @@ $(document).ready(function(){
       .append( 
         $('<input>').addClass('span2').attr({'id': vals[1], 'type': 'text'}).change(function(){
           _gaq.push(['_trackEvent', 'Data', 'Change', properLabel]);
+          personData = bgPage.personDataObjects[tabId]['updated'] = getPersonData();
         })        
       )
       .appendTo('#form');
@@ -39,8 +40,12 @@ $(document).ready(function(){
   chrome.tabs.query({active: true}, function(tabs){
     
     bgPage = chrome.extension.getBackgroundPage();
+    tabId = tabs[0].id;
     
-    var personData = bgPage.personDataObjects[tabs[0].id];
+    var personData = bgPage.personDataObjects[tabId]['original'];
+    if( bgPage.personDataObjects[tabId]['updated'] ) {
+      personData = bgPage.personDataObjects[tabId]['updated'];
+    }
     
     fillForm(personData);
     
@@ -70,14 +75,17 @@ function updateLinks() {
   
 }
 
-function buildLinks() {
-  
+function getPersonData() {
   var personData = {};
   $.each(mappings, function(i, vals){
     personData[vals[0]] = $('#'+vals[1]).val();
   });
+  return personData;
+}
+
+function buildLinks() {
   
-  var searchLinks = bgPage.rs.executeLinkBuilders(personData);
+  var searchLinks = bgPage.rs.executeLinkBuilders(getPersonData());
   
   // Remove ajax loader and add search links
   $('#search-links').html('');

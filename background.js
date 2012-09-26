@@ -4,7 +4,7 @@ chrome.extension.onRequest.addListener(function(request, sender) {
 
   if( request.type == "person_info" ) {
     chrome.pageAction.show(sender.tab.id);
-    personDataObjects[sender.tab.id] = request.data;
+    personDataObjects[sender.tab.id] = {'original': request.data};
   }
   
   else if( request.type == "hide" ) {
