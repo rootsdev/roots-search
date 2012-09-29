@@ -34,7 +34,8 @@
       "matches": [ 
         "https://familysearch.org/*",
         "http://www.werelate.org/wiki/Person:*",
-        "http://search.ancestry.com/cgi-bin/sse.dll*"
+        "http://search.ancestry.com/cgi-bin/sse.dll*",
+        "http://trees.ancestry.com/tree/*/person/*"
       ],
       "run_at": "document_end",
       "js": [ 
@@ -76,6 +77,15 @@
       "run_at": "document_end",
       "js": [
         "widgets/ancestry-record-search.js"
+      ]
+    },
+    {
+      "matches": [
+        "http://trees.ancestry.com/tree/*/person/*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/ancestry-person-profile.js"
       ]
     }
   ]
