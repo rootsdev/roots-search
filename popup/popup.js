@@ -47,10 +47,13 @@ $(document).ready(function(){
       personData = bgPage.personDataObjects[tabId]['updated'];
     }
     
+    // Push the domain to Google Analytics
+    _gaq.push(['_trackEvent', 'Popup', 'Open', 'Domain', bgPage.personDataObjects[tabId].url.split('/')[2]]);
+    
     fillForm(personData);
     
     $('#update-button').attr('disabled', false).click(function(){
-      _gaq.push(['_trackEvent', 'Data', 'Update Links']);
+      _gaq.push(['_trackEvent', 'Update', 'Update Links']);
       updateLinks();
     });
     
