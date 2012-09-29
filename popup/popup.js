@@ -12,8 +12,6 @@ var mappings = [
   ['deathPlace', 'death-place'],
   ['spouseGivenName', 'spouse-first-name'],
   ['spouseFamilyName', 'spouse-last-name'],
-  ['marriageDate', 'marriage-date'],
-  ['marriagePlace', 'marriage-place'],
   ['fatherGivenName', 'father-first-name'],
   ['fatherFamilyName', 'father-last-name'],
   ['motherGivenName', 'mother-first-name'],
