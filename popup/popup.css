@@ -1,0 +1,45 @@
+body {
+  width: 460px;
+  font-family: arial;
+}
+
+#title {
+  text-align: center;
+  color: #F9F9F9;
+  font-family: 'Allerta', serif;
+  letter-spacing: 3px;
+  margin-bottom: .25em;
+  margin-top: 0;
+  padding: .25em 0;
+  background-color: #49AFCD;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+#form {
+  font-size: 12px;
+}
+
+.field-label {
+  padding-left: 3px;
+  color: #777;
+}
+
+#search-links {
+  padding-top: 5px;
+}
+
+#search-links a {
+  text-decoration: none;
+  display: block;
+  padding: 5px;
+  margin: 10px 0;
+}
+
+#search-links img.loader {
+  margin: 130px auto;
+  display: block;
+}
+
+#update-button-wrap {
+  text-align: center;
+}

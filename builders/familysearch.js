@@ -1,4 +1,4 @@
-(function(rs){
+(function(rs, utils){
 
   rs.registerLinkBuilder('familysearch', createUrl);
 
@@ -10,8 +10,6 @@
      * The surnames of the parents and spouse are commented out because
      * they usually decrease the quality of results when included
      */
-    
-    // death_place%3A%22death%20place%22~%20%2Bdeath_year%3A1919-2222~
     
     // Simple mappings from the person data object to fs params
     // These don't need any further processing
@@ -35,19 +33,19 @@
     });
     
     // Process the birth year    
-    var birthYear = rs.getYear(pd.birthDate);
+    var birthYear = utils.getYear(pd.birthDate);
     if( birthYear ) {
       query = addQueryParam(query, 'birth_year', (birthYear-10)+'-'+(birthYear+10));
     }
     
     // Process the death year
-    var deathYear = rs.getYear(pd.deathDate);
+    var deathYear = utils.getYear(pd.deathDate);
     if( deathYear ) {
       query = addQueryParam(query, 'death_year', (deathYear-10)+'-'+(deathYear+10));
     }
 
     // Process the marriage year
-    var marriageYear = rs.getYear(pd.marriageDate);
+    var marriageYear = utils.getYear(pd.marriageDate);
     if( marriageYear ) {
       query = addQueryParam(query, 'marriage_year', (marriageYear-10)+'-'+(marriageYear+10));
     }
@@ -74,4 +72,4 @@
     return query;
   }
 
-}(rs));
+}(rs, utils));

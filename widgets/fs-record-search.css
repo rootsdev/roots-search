@@ -1,6 +1,0 @@
-.rs-search-tool { position: relative; padding-bottom: 15px; margin-bottom: -15px; }
-.rs-search-tool a { background: url('/common/content/images/search_14_v1.png') no-repeat 62px; }
-.rs-search-tool .share-flyout { width: 150px; }
-.rs-search-tool .share-flyout .flyout-direction { top: -9px; left: 90%; }
-.rs-search-tool:hover .share-flyout, .rs-search-tool .share-flyout:hover { top: 28px; left: -70px; }
-.rs-search-tool .share-flyout a { background: none; padding-right: 10px; padding-left: 10px; }

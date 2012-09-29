@@ -1,4 +1,4 @@
-(function(rs){
+(function(utils){
 
   /**
    * Setup the widget when the page loads.
@@ -8,17 +8,6 @@
   });
   
   function setup() {
-    
-    /**
-     * First we setup the widget container. We will place it on
-     * the right side above the family relationship boxes.
-     */
-     
-    var widget = $('<div id="#roots-search-widget">')
-      .addClass('wr-infobox wr-infobox-familybadge wr-infobox-spousechildren')
-      .prependTo( $('.wr-infobox-familybadges') )
-      .append( $('<div>').addClass('wr-infobox-heading').html('Records Search') );     
-    var linkWrap = $('<div>').addClass('rs-lnk-wrap').appendTo(widget);
     
     /**
      * Next we begin retrieving the data on the screen. First we
@@ -37,7 +26,7 @@
     
     // Process the name
     if( recordData.name ) {
-      var nameParts = rs.splitName( $.trim( recordData.name.children().eq(1).children('span').text() ) );
+      var nameParts = utils.splitName( $.trim( recordData.name.children().eq(1).children('span').text() ) );
       personData.givenName = nameParts[0];
       personData.familyName = nameParts[1];
     }
@@ -68,7 +57,7 @@
     
     // Process spouse's name
     if( recordData.marriage ) {
-      var spouseNameParts = rs.splitName( $.trim( $('.wr-infotable-placedesc .wr-infotable-desc', recordData.marriage).text().substring(3) ) );
+      var spouseNameParts = utils.splitName( $.trim( $('.wr-infotable-placedesc .wr-infotable-desc', recordData.marriage).text().substring(3) ) );
       personData.spouseGivenName = spouseNameParts[0];
       personData.spouseFamilyName = spouseNameParts[1];
     }
@@ -77,7 +66,7 @@
     var parentsBox = $('.wr-infobox-parentssiblings:first');
     if( parentsBox.length == 1 ){
       $('ul .wr-infobox-fullname', parentsBox).each(function(i,e){
-        var parentNameParts = rs.splitName( $.trim( $(this).text().substring(4) ) );
+        var parentNameParts = utils.splitName( $.trim( $(this).text().substring(4) ) );
         if( i == 0 ) {
           personData.fatherGivenName = parentNameParts[0];
           personData.fatherFamilyName = parentNameParts[1];
@@ -88,17 +77,10 @@
       });
     }
 
-    /**
-     * Build the links
-     */
-     
-    var linkData = rs.executeLinkBuilders(personData);
-    $.each(linkData, function(i, link) {
-      $('<a>').addClass('rs-search-link').attr({
-        'target': '_blank',
-        'href': link.url
-      }).html(link.text).appendTo(linkWrap);
+    chrome.extension.sendRequest({
+      'type': 'person_info',
+      'data': personData
     });
   }
 
-}(rs));
+}(utils));
