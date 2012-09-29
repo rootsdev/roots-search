@@ -14,7 +14,7 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  rs.registerLinkBuilder('example', createUrl);
+  rs.registerLinkBuilder('archives', createUrl);
 
   /**
    * The function which you register as your builder
@@ -24,16 +24,8 @@
    **/
   function createUrl(pd) {    
     
-    var url = 'http://myexamplesearchdomain.com/search?';
-    var query = '';
-    
-    /**
-     * Here is where you process the objects and build your search url.
-     * The utils object passed in at the top of this file contains some
-     * utility functions that aid in processing the data.
-     *
-     * utils.getYear() takes in a date string returns the year.
-     */
+    var url = 'http://www.archives.com/GA.aspx';    
+    var query = '?_act=registerAS_org&Location=US';
     
     /**
      * None of the attributes for the person data object are required
@@ -44,10 +36,18 @@
      * the code a lot cleaner.
      */
     if( pd.givenName ) {
-      query = addQueryParam( query, 'first-name', pd.givenName );
+      query = addQueryParam( query, 'FirstName', pd.givenName );
     }
     if( pd.familyName ) {
-      query = addQueryParam( query, 'last-name', pd.familyName );
+      query = addQueryParam( query, 'LastName', pd.familyName );
+    }
+    if( pd.birthDate ) {
+      query = addQueryParam( query, 'BirthYear', utils.getYear(pd.birthDate) );
+      query = addQueryParam( query, 'BirthYearSpan', '5' );
+    }
+    if( pd.deathDate ) {
+      query = addQueryParam( query, 'DeathYear', utils.getYear(pd.deathDate) );
+      query = addQueryParam( query, 'DeathYearSpan', '5' );
     }
     
     /**
@@ -62,16 +62,13 @@
      * <a href="http://myexamplesearchdomain.com/searchstuff">My Example</a>
      **/
     return {
-      'text': 'My Example',
+      'text': 'Archives',
       'url': url + query
     };
   }
   
   function addQueryParam(query, name, value) {
-    if( query ) {
-      query += '&';
-    }
-    return query += name + '=' + encodeURIComponent( value );
+    return query += '&' + name + '=' + encodeURIComponent( value );
   }
 
 }(rs, utils));

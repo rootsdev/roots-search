@@ -16,6 +16,7 @@
 	    "includes/jquery.js", 
       "includes/utils.js",
       "builders/ancestry.js",
+      "builders/archives.js",
       "builders/billiongraves.js",
       "builders/familysearch.js",
       "builders/findagrave.js",
