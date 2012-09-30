@@ -98,12 +98,12 @@
     }
     
     var data = {
-      'givenName': summary.data.nameConclusion.details.givenPart,
-      'familyName': summary.data.nameConclusion.details.familyPart,
-      'birthPlace': summary.data.birthConclusion.details.place.normalizedText,
-      'birthDate': summary.data.birthConclusion.details.date.normalizedText,
-      'deathPlace': summary.data.deathConclusion.details.place.normalizedText,
-      'deathDate': summary.data.deathConclusion.details.date.normalizedText,
+      'givenName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'givenPart']),
+      'familyName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'familyPart']),
+      'birthPlace': getSummaryInfo(summary, ['data', 'birthConclusion', 'details', 'place', 'normalizedText']),
+      'birthDate': getSummaryInfo(summary, ['data', 'birthConclusion', 'details', 'date', 'normalizedText']),
+      'deathPlace': getSummaryInfo(summary, ['data', 'deathConclusion', 'details', 'place', 'normalizedText']),
+      'deathDate': getSummaryInfo(summary, ['data', 'deathConclusion', 'details', 'date', 'normalizedText']),
       'fatherGivenName': fatherName[0],
       'fatherFamilyName': fatherName[1],
       'motherGivenName': motherName[0],
@@ -118,6 +118,21 @@
     }
     
     return data;
+  }
+  
+  // Iterate over a list of attributes which define the path
+  // through an object to a desired piece of data. Stop when
+  // we reach the last attribute (and return its value)
+  // or when we find something that is undefined (return undefined)
+  function getSummaryInfo(summary, attributes) {
+    var current = summary;
+    for(var i = 0; i < attributes.length; i++) {
+      current = current[attributes[i]];
+      if( current == undefined ) {
+        return undefined;
+      }
+    }
+    return current;
   }
   
   // Makes an ajax call to retrieve the persons summary data and returns a promise
