@@ -49,3 +49,18 @@ body {
 #update-button-wrap {
   text-align: center;
 }
+
+#feedback {
+  padding-top: 0.8em;
+  text-align: right;
+}
+
+#feedback a {
+  font-size: .8em;
+  color: #777;
+  text-decoration: none;
+}
+
+#feedback a:hover {
+  text-decoration: underline;
+}
