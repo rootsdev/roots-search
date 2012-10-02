@@ -46,7 +46,7 @@ $(document).ready(function(){
     }
     
     // Push the domain to Google Analytics
-    _gaq.push(['_trackEvent', 'Popup', 'Open', 'Domain', bgPage.personDataObjects[tabId].url.split('/')[2]]);
+    _gaq.push(['_trackEvent', 'Domain', 'Open', bgPage.personDataObjects[tabId].url.split('/')[2]]);
     
     fillForm(personData);
     
