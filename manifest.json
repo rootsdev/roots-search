@@ -35,7 +35,8 @@
         "https://familysearch.org/*",
         "http://www.werelate.org/wiki/Person:*",
         "http://search.ancestry.com/cgi-bin/sse.dll*",
-        "http://trees.ancestry.com/tree/*/person/*"
+        "http://trees.ancestry.com/tree/*/person/*",
+        "http://billiongraves.com/pages/record/*"
       ],
       "run_at": "document_end",
       "js": [ 
@@ -86,6 +87,15 @@
       "run_at": "document_end",
       "js": [
         "widgets/ancestry-person-profile.js"
+      ]
+    },
+    {
+      "matches": [
+        "http://billiongraves.com/pages/record/*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/billion-graves.js"
       ]
     }
   ]
