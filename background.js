@@ -3,7 +3,19 @@ var personDataObjects = {};
 chrome.extension.onRequest.addListener(function(request, sender) {
 
   if( request.type == "person_info" ) {
+    
+    // Verify format of dates; they cause errors if they're not valid
+    if( !isValidDate(request.data.birthDate) ) {
+      request.data.birthDate = undefined;
+    }
+    if( !isValidDate(request.data.deathDate) ) {
+      request.data.deathDate = undefined;
+    }
+    
+    // Show the RootsSearch icon
     chrome.pageAction.show(sender.tab.id);
+    
+    // Store the data so that the popup can retrieve it
     personDataObjects[sender.tab.id] = {
       'original': request.data,
       'url': sender.tab.url
@@ -15,6 +27,13 @@ chrome.extension.onRequest.addListener(function(request, sender) {
   }
   
 });
+
+function isValidDate(d) {
+  d = new Date(d);
+  if ( Object.prototype.toString.call(d) !== "[object Date]" )
+    return false;
+  return !isNaN(d.getTime());
+}
 
 // rs will be an object in the global namespace.
 var rs = {
@@ -29,7 +48,7 @@ var rs = {
   
   // Returns an array of search link objects
   // gathered by executing the builders
-  executeLinkBuilders: function(personData) {
+  executeLinkBuilders: function(personData) {    
     var linkData = [];
     
     // Loop through the builders and call the handlers if they exist

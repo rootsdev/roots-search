@@ -36,7 +36,8 @@
         "http://www.werelate.org/wiki/Person:*",
         "http://search.ancestry.com/cgi-bin/sse.dll*",
         "http://trees.ancestry.com/tree/*/person/*",
-        "http://billiongraves.com/pages/record/*"
+        "http://billiongraves.com/pages/record/*",
+        "http://www.findagrave.com/cgi-bin/fg.cgi*"
       ],
       "run_at": "document_end",
       "js": [ 
@@ -96,6 +97,14 @@
       "run_at": "document_end",
       "js": [
         "widgets/billion-graves.js"
+      ]
+    },{
+      "matches": [
+        "http://www.findagrave.com/cgi-bin/fg.cgi*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/findagrave.js"
       ]
     }
   ]

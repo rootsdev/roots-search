@@ -12,6 +12,19 @@ var utils = {
     return hashParts;
   },
   
+  // Returns an object containing the query parameters and values
+  getQueryParams: function(){
+    var paramArray = window.location.search.substr(1).split("&");
+    var params = {};
+
+    for ( var i = 0; i < paramArray.length; i++) {
+      var tempArray = paramArray[i].split("=");
+      params[tempArray[0]] = tempArray[1];
+    }
+    
+    return params;
+  },
+  
   // Parses a date string and returns the year
   getYear: function(date) {
     return (new Date(date)).getFullYear();
