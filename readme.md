@@ -6,7 +6,9 @@ The Roots Search Chrome Extension connects popular genealogy websites by providi
 Install
 -------
 
-*This extension is not currently available in the Chrome Web Store.*
+Install the latest release in the [Chrome Webstore](https://chrome.google.com/webstore/detail/rootssearch/aolcffalbhpnojekmimmelebjchjmmgn).
+
+To install the latest development from source:
 
 1. Download the zip file from github and unzip it.
 1. Open the Extensions window in Chrome (chrome://chrome/extensions/).
