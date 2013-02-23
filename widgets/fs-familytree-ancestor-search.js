@@ -98,8 +98,8 @@
     }
     
     var data = {
-      'givenName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'givenPart']),
-      'familyName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'familyPart']),
+      'givenName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'nameForms', 0, 'givenPart']),
+      'familyName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'nameForms', 0, 'familyPart']),
       'birthPlace': getSummaryInfo(summary, ['data', 'birthConclusion', 'details', 'place', 'normalizedText']),
       'birthDate': getSummaryInfo(summary, ['data', 'birthConclusion', 'details', 'date', 'normalizedText']),
       'deathPlace': getSummaryInfo(summary, ['data', 'deathConclusion', 'details', 'place', 'normalizedText']),
