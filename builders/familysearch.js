@@ -3,7 +3,7 @@
   rs.registerLinkBuilder('familysearch', createUrl);
 
   function createUrl(pd) {
-    var fsURL = 'https://familysearch.org/search/records/index#count=20&query=';
+    var fsURL = 'https://familysearch.org/search/record/results#count=20&query=';
     var query = '';
     
     /**
