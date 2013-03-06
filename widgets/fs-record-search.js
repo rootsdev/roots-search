@@ -3,64 +3,53 @@
   var hasFamilyTable = $('.result-data .household-label').length > 0;
   
   $(document).ready(function(){
-    setup();
+    $.getJSON(window.location.href, function(data){
+      setup(data);
+    });
   });
   
-  function setup() {
+  function setup(recordData) {
     
-    // Process the table rows of the record data
-    // The first cell in each row becomes the key
-    // The second cell becomes a list of the cells in that row
-    // We store all the cells because the gender of
-    // family members on census records is important
-    var recordData = {};
-    $('.result-data tr').each(function(){
-      var row = $(this);
-      var fieldName = $.trim( $('td:first', row).text().toLowerCase().slice(0, -1) );
-      if( fieldName ) {
-        recordData[fieldName] = $('td', row);
-      }
-    });
-    
-    var nameParts = ['',''];
-    if( recordData['first name'] ) {
-      nameParts = [ getCleanCellValue( recordData['first name'], 1 ) , getCleanCellValue( recordData['last name'], 1 ) ];
-    } 
-    else if(recordData['name']) {
-      nameParts = utils.splitName( getCleanCellValue( recordData['name'], 1 ) );
-    }
-    
+    // Set the name
+    var nameParts = getNameParts(recordData);
     var personData = {
       'givenName': nameParts[0],
-      'familyName': nameParts[1],
-      'birthDate': checkMultipleFields( recordData, ['birth date', 'birthdate', 'estimated birth year', 'estimated birth date', 'baptism/christening date'], 1 ),
-      'birthPlace': checkMultipleFields( recordData, ['birthplace', 'place of birth'], 1 ),
-      'deathDate': getCleanCellValue( recordData['death date'], 1 ),
-      'deathPlace': getCleanCellValue( recordData['death place'], 1 )
+      'familyName': nameParts[1]
     };
     
+    // Get the birth and death events
+    var events = getEvents( recordData );
+    if( events.birth ) {
+      var birthDetails = getEventDetails( events.birth, 'birth' );
+      personData.birthDate = birthDetails.date;
+      personData.birthPlace = birthDetails.place;
+    }
+    if( events.death ) {
+      var deathDetails = getEventDetails( events.death, 'death' );
+      personData.deathDate = deathDetails.date;
+      personData.deathPlace = deathDetails.place;
+    }
+    
     // Look for a spouse
-    var spouseName = getSpousesName(recordData);
-    if( spouseName ) {
-      var spouseNameParts = utils.splitName( spouseName );
+    if( recordData.spouse.length ) {
+      var spouseNameParts = utils.splitName( recordData.spouse[0].name );
       personData['spouseGivenName'] = spouseNameParts[0];
       personData['spouseFamilyName'] = spouseNameParts[1];
     }
     
-    // Look for a mother
-    var motherName = getParentName(recordData, 'mother');
-    if( motherName ) {
-      var motherNameParts = utils.splitName( motherName );
+    // Look for parents
+    var parents = getParents( recordData );
+    
+    if( parents.mother ) {
+      var motherNameParts = utils.splitName( parents.mother.name );
       personData['motherGivenName'] = motherNameParts[0];
       personData['motherFamilyName'] = motherNameParts[1];
     }
 
-    // Look for a father
-    var fatherName = getParentName(recordData, 'father');
-    if( fatherName ) {
-      var fatherNameParts = utils.splitName( fatherName );
+    if( parents.father ) {
+      var fatherNameParts = utils.splitName( parents.father.name );
       personData['fatherGivenName'] = fatherNameParts[0];
-      personData['fatherFamilyName'] = motherNameParts[1];
+      personData['fatherFamilyName'] = fatherNameParts[1];
     }
     
     chrome.extension.sendRequest({
@@ -70,88 +59,109 @@
 
   }
   
+  function getEventDetails( eventInfo, eventType ) {
+    var eventDetails = {};
+    if( eventInfo.date ) {
+      eventDetails.date = checkMultipleFields( 
+        eventInfo.date, 
+        [
+          ['normalized', 0, 'text'],
+          ['normalized', 0, 'parts', 0, 'text']
+        ]
+      );
+    }
+    if( eventInfo.place ) {
+      eventDetails.place = checkMultipleFields( 
+        eventInfo.place, 
+        [
+          ['original', 'text'],
+          ['normalized', 0, 'text']
+        ]
+      );
+    }
+    return eventDetails;
+  }
+  
   // Check for the existence of multiple fields
   // First one found is returned
-  function checkMultipleFields( recordData, fields, position ) {
-    for( var i in fields ) {
-      if( recordData[fields[i]] ) {
-        var val = getCleanCellValue( recordData[fields[i]], position );
-        if( val ) {
-          return val;
-        }
-      }
+  function checkMultipleFields( recordData, fieldLists ) {
+    for( var i in fieldLists ) {
+      var data = checkFields( recordData, fieldLists[i] );
+      if( data !== undefined ) return data;
     }
     return undefined;
   }
   
-  function getCleanCellValue( cells, position ) {
-    if( cells ) {
-      return $.trim( cells.eq(position).text() );
-    }
-    return undefined;
-  }
-  
-  function getRelationship(recordData) {
-    return checkMultipleFields( recordData, ["relationship to head of household", "relationship to head of household (standardized)"], 1 ).toLowerCase();
-  }
-  
-  function getSpousesName(recordData) {
-    // Check to see if the "spouse's name" is set
-    if( recordData["spouse's name"] ) {
-      return getCleanCellValue( recordData["spouse's name"], 1 );
-    }
-    
-    // If "spouse's name" isn't set do some crazy relationship jiu-jitsu
-    else if( hasFamilyTable ) {
-      var relationship = getRelationship(recordData);
-      
-      // The husband is always listed as the head of household
-      // so we only look for the wife. If the wife is the head
-      // of household it means the husband isn't there so returning
-      // the wife will be undefined which means there is no spouse
-      if( relationship == "head" || relationship == "self" ) {
-        return getCleanCellValue( recordData['wife'], 1 );
-      } else if( relationship == "wife" ) {
-        return checkMultipleFields( recordData, ['head', 'self'], 1 );
+  function checkFields( recordData, fieldList ) {
+    var data = recordData;
+    for( var i in fieldList ) {
+      if( data[fieldList[i]] ) {
+        data = data[fieldList[i]];
+      } else {
+        return undefined;
       }
     }
-    
-    return undefined;
+    return data;
   }
-
-  function getParentName(recordData, parent) {
-    // Check to see if the "parent's name" is set
-    if( recordData[parent+"'s name"] ) {
-      return getCleanCellValue( recordData[parent+"'s name"], 1);
-    }
-    
-    // If "parent's name" isn't set do some crazy relationship jiu-jitsu
-    else if( hasFamilyTable ) {
-      var relationship = getRelationship(recordData);
-      
-      if( relationship == 'son' || relationship == 'daughter' ) {
-        var headGender = checkMultipleFields( recordData, ['head', 'self'], 2 );
-        
-        if( parent == 'father' ) {
-          
-          // Check to see if the gender of the head of household is male
-          if( headGender == 'M' ) {
-            return checkMultipleFields( recordData, ['head', 'self'], 1 );
-          }
-        } else if( parent == 'mother' ) {
-          
-          // If the head of household is male, return the wife's name
-          // If the head of household is female, return the head's name
-          if( headGender == 'F' ) {
-            return checkMultipleFields( recordData, ['head', 'self'], 1 );
-          } else if( headGender == 'M' ) {
-            return getCleanCellValue( recordData['wife'], 1);
-          }
-        }
+  
+  function getEvents( recordData ) {
+    var events = {};
+    for( var i in recordData.event ) {
+      if( recordData.event[i].type == "BIRTH" ) {
+        events.birth = recordData.event[i];
+      } else if( recordData.event[i].type == "DEATH" ) {
+        events.death = recordData.event[i];
       }
     }
+    return events;
+  }
+  
+  function getParents( recordData ) {
+    var parents = {};
+    for( var i in recordData.parent ) {
+      if( recordData.parent[i].gender == "MALE" ) {
+        parents.father = recordData.parent[i];
+      } else {
+        parents.mother = recordData.parent[i];
+      }
+    }
+    return parents;
+  }
+  
+  function getNameParts( recordData ) {
+    var nameParts = [undefined, undefined];
     
-    return undefined;
+    var name = checkMultipleFields( 
+      recordData.name[0], 
+      [
+        ['normalized', 0, 'text'],
+        ['normalized', 0, 'parts'],
+        ['original', 'text'],
+        ['original', 'parts']
+      ]
+    );
+    
+    if( typeof name == "string" ) {
+      nameParts = utils.splitName(name);
+    } else {
+      nameParts = processFSNameParts(name);
+    }
+    
+    return nameParts;
+    
+  }
+  
+  function processFSNameParts( parts ) {
+    var given = [],
+        family = [];
+    for( var i in parts ) {
+      if( parts[i].type == "GIVEN" ) {
+        given.push( parts[i].text );
+      } else if( parts[i].type == "SURNAME" ) {
+        family.push( parts[i].text );
+      }
+    }
+    return [ given.join(' '), family.join(' ') ];
   }
 
 }(utils));
