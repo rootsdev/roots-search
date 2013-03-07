@@ -2,9 +2,15 @@
 
   /**
    * Setup the widget when the page loads.
+   * Wrap the setup function in a try/catch 
+   * block for error detection.
    */
   $(document).ready(function(){
-    setup();
+    try {
+      setup();
+    } catch(e) {
+      utils.reportError(e, window.location.href);
+    }
   });
   
   function setup() {

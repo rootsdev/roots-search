@@ -3,7 +3,7 @@
   "description": "Search across multiple genealogy sites for matching records.",
   "name": "RootsSearch",
   "version": "3.0.4",
-  "permissions": [ "tabs" ],
+  "permissions": [ "tabs", "https://rs-errors.herokuapp.com/" ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "icons": { 
     "16": "images/icon-16.png",
@@ -35,7 +35,9 @@
         "https://familysearch.org/*",
         "http://www.werelate.org/wiki/Person:*",
         "http://search.ancestry.com/cgi-bin/sse.dll*",
+        "http://search.ancestryinstitution.com/cgi-bin/sse.dll*",
         "http://trees.ancestry.com/tree/*/person/*",
+        "http://trees.ancestryinstitution.com/tree/*/person/*",
         "http://billiongraves.com/pages/record/*",
         "http://www.findagrave.com/cgi-bin/fg.cgi*"
       ],
@@ -74,7 +76,8 @@
     },
     {
       "matches": [
-        "http://search.ancestry.com/cgi-bin/sse.dll*"
+        "http://search.ancestry.com/cgi-bin/sse.dll*",
+        "http://search.ancestryinstitution.com/cgi-bin/sse.dll*"
       ],
       "run_at": "document_end",
       "js": [
@@ -83,7 +86,8 @@
     },
     {
       "matches": [
-        "http://trees.ancestry.com/tree/*/person/*"
+        "http://trees.ancestry.com/tree/*/person/*",
+        "http://trees.ancestryinstitution.com/tree/*/person/*"
       ],
       "run_at": "document_end",
       "js": [

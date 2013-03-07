@@ -38,6 +38,17 @@ var utils = {
     } else {
       return ['',''];
     }
+  },
+  
+  reportError: function(exception, url) {
+    chrome.extension.sendRequest({
+      'type': 'js_error',
+      'data': {
+        'title': exception.name,
+        'message': exception.message,
+        'url': url
+      }
+    });
   }
   
 };

@@ -7,7 +7,11 @@
    */
   $(document).ready(function(){
     if( $('#record-header').length == 1) {
-      setup();
+      try {
+        setup();
+      } catch(e) {
+        utils.reportError(e, window.location.href);
+      }
     }
   });
   

@@ -4,7 +4,11 @@
    * Setup the widget when the page loads.
    */
   $(document).ready(function(){
-    setup();
+    try {
+      setup();
+    } catch(e) {
+      utils.reportError(e, window.location.href);
+    }
   });
   
   function setup() {

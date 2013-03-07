@@ -4,7 +4,11 @@
   
   $(document).ready(function(){
     $.getJSON(window.location.href, function(data){
-      setup(data);
+      try {
+        setup(data);
+      } catch(e) {
+        utils.reportError(e, window.location.href);
+      }
     });
   });
   

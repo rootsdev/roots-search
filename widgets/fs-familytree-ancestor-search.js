@@ -14,7 +14,11 @@
   // Builds the search widget if we're on the ancestor view
   function verify() {
     if ( utils.getHashParts()['view'] == 'ancestor' ) {
-      setup();
+      try {
+        setup();
+      } catch(e) {
+        utils.reportError(e, window.location.href);
+      }
     }
   }
   

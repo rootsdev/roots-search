@@ -5,7 +5,11 @@
    */
   $(document).ready(function(){
     if( utils.getQueryParams()['page'] == 'gr' ) {
-      setup();
+      try {
+        setup();
+      } catch(e) {
+        utils.reportError(e, window.location.href);
+      }
     }
   });
   

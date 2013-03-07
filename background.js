@@ -26,6 +26,10 @@ chrome.extension.onRequest.addListener(function(request, sender) {
     chrome.pageAction.hide(sender.tab.id);
   }
   
+  else if( request.type == "js_error" ) {
+    $.post('https://rs-errors.herokuapp.com', request.data);
+  }
+  
 });
 
 function isValidDate(d) {
