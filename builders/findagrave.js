@@ -14,7 +14,10 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  rs.registerLinkBuilder('findagrave', createUrl);
+  rs.registerLinkBuilder({
+    text: 'Find A Grave', 
+    func: createUrl
+  });
 
   /**
    * The function which you register as your builder
@@ -44,10 +47,7 @@
       query = addQueryParam( query, 'GSdy', (new Date(pd.deathDate)).getFullYear() );
     }
     
-    return {
-      'text': 'Find A Grave',
-      'url': url + query
-    };
+    return url + query;
   }
   
   function addQueryParam(query, name, value) {

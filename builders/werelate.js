@@ -1,6 +1,9 @@
 (function(rs){
 
-  rs.registerLinkBuilder('werelate', createUrl);
+  rs.registerLinkBuilder({
+    'text': 'WeRelate', 
+    'func': createUrl
+  });
 
   function createUrl(pd) {
     var baseUrl = 'http://www.werelate.org/wiki/Special:Search?sort=score&ns=Person&rows=20&ecp=p';
@@ -36,10 +39,7 @@
       query = addQueryParam(query, 'dr', 5);
     }
     
-    return {
-      'text': 'WeRelate',
-      'url': baseUrl + query
-    };
+    return baseUrl + query;
   }
 
   function addQueryParam(query, queryParam, paramValue) {

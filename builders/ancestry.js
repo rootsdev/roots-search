@@ -1,6 +1,9 @@
 (function(rs, utils){
 
-  rs.registerLinkBuilder('ancestry', createUrl);
+  rs.registerLinkBuilder({
+    'text': 'Ancestry',
+    'func': createUrl
+  });
 
   function createUrl(pd) {
     var ancestryURL = 'http://search.ancestry.com/cgi-bin/sse.dll?rank=1';
@@ -32,10 +35,7 @@
     query = addQueryParam(query, 'msddy', utils.getYear(pd.deathDate));
     query = addQueryParam(query, 'msgdy', utils.getYear(pd.marriageDate));
     
-    return {
-      'text': 'Ancestry',
-      'url': ancestryURL + query + '&gl=allgs'
-    };
+    return ancestryURL + query + '&gl=allgs';
   }
 
   function addQueryParam(query, queryParam, paramValue) {

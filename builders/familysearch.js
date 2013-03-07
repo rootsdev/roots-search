@@ -1,6 +1,9 @@
 (function(rs, utils){
 
-  rs.registerLinkBuilder('familysearch', createUrl);
+  rs.registerLinkBuilder({
+    text: 'FamilySearch',
+    func: createUrl
+  });
 
   function createUrl(pd) {
     var fsURL = 'https://familysearch.org/search/record/results#count=20&query=';
@@ -50,10 +53,7 @@
       query = addQueryParam(query, 'marriage_year', (marriageYear-10)+'-'+(marriageYear+10));
     }
     
-    return {
-      'text': 'FamilySearch',
-      'url': fsURL + encodeURIComponent(query)
-    };
+    return fsURL + encodeURIComponent(query);
   }
   
   function addQueryParam(query, queryParam, paramValue) {

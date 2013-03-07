@@ -1,20 +1,9 @@
 (function(rs){
 
-  /**
-   * The first parameter is the name of your builder. It
-   * should match the name of your builder file. The
-   * name is mostly used to prevent a builder from being
-   * registered twice but it may be used for more in the
-   * future. This name *is not* what is used for the text
-   * of the search links.
-   *
-   * The second parameter is the handler which processes
-   * the person data and returns links objects. It does
-   * not need to be called createUrl, although there
-   * shouldn't be a reason to change it. Read more
-   * about this below.
-   **/
-  rs.registerLinkBuilder('findmypast-uk', createUrl);
+  rs.registerLinkBuilder({
+    text: 'Findmypast - UK', 
+    func: createUrl
+  });
 
   /**
    * The function which you register as your builder
@@ -44,10 +33,8 @@
       query = addQueryParam( query, 'toYear', (new Date(pd.deathDate)).getFullYear() );
     }
     
-    return {
-      'text': 'Findmypast - UK',
-      'url': url + query.slice(1) // remove leading &
-    };
+    // remove leading "&"
+    return url + query.slice(1);
   }
   
   function addQueryParam(query, name, value) {

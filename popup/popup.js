@@ -50,12 +50,7 @@ $(document).ready(function(){
     
     fillForm(personData);
     
-    $('#update-button').attr('disabled', false).click(function(){
-      _gaq.push(['_trackEvent', 'Update', 'Update Links']);
-      updateLinks();
-    });
-    
-    updateLinks();
+    createLinkButtons();
     
   });
   
@@ -67,21 +62,26 @@ function fillForm(personData) {
   });
 }
 
-function updateLinks() {
-  
-  // Delete previous links and show ajax loader for a moment
-  $('#search-links .btn').addClass('disabled');
-  
-  setTimeout(buildLinks, 300);
-  
-}
-
 function getPersonData() {
   var personData = {};
   $.each(mappings, function(i, vals){
     personData[vals[0]] = $('#'+vals[1]).val();
   });
   return personData;
+}
+
+function createLinkButtons() {
+  $.each(bgPage.rs.linkBuilders, function(builderName) {
+    $('<button>').addClass('btn btn-info').html(builderName).appendTo('#search-links').click(function(){
+      
+      // Execute the appropriate link builder
+      var searchUrl = bgPage.rs.linkBuilders[builderName](getPersonData());
+      
+      window.open(searchUrl);
+      
+      _gaq.push(['_trackEvent', 'Links', 'Click', builderName]);
+    });
+  });
 }
 
 function buildLinks() {
@@ -91,9 +91,9 @@ function buildLinks() {
   // Remove ajax loader and add search links
   $('#search-links').html('');
   $.each(searchLinks, function(i, link){
-      $('<a target="_blank">').addClass('btn btn-info').html(link.text).attr('href', link.url).appendTo('#search-links').click(function(){
-        _gaq.push(['_trackEvent', 'Links', 'Click', link.text]);
-      });
+    $('<a target="_blank">').addClass('btn btn-info').html(link.text).attr('href', link.url).appendTo('#search-links').click(function(){
+      _gaq.push(['_trackEvent', 'Links', 'Click', link.text]);
+    });
   });
   
 }

@@ -34,24 +34,15 @@ body {
   padding-top: 5px;
 }
 
-#search-links a {
+#search-links button {
   text-decoration: none;
   display: block;
   padding: 5px;
   margin: 10px 0;
-}
-
-#search-links img.loader {
-  margin: 130px auto;
-  display: block;
-}
-
-#update-button-wrap {
-  text-align: center;
+  width: 100%;
 }
 
 #feedback {
-  padding-top: 0.8em;
   text-align: right;
 }
 

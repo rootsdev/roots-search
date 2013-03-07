@@ -14,7 +14,10 @@
    * shouldn't be a reason to change it. Read more
    * about this below.
    **/
-  rs.registerLinkBuilder('example', createUrl);
+  rs.registerLinkBuilder({
+    text: 'example', 
+    func: createUrl
+  });
 
   /**
    * The function which you register as your builder
@@ -61,10 +64,7 @@
      * The object below will be turned into a link similar to:
      * <a href="http://myexamplesearchdomain.com/searchstuff">My Example</a>
      **/
-    return {
-      'text': 'My Example',
-      'url': url + query
-    };
+    return url + query;
   }
   
   function addQueryParam(query, name, value) {
