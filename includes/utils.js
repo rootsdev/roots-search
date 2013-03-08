@@ -1,6 +1,6 @@
 chrome.extension.sendRequest({
   'type': 'visit',
-  'data': window.location
+  'data': window.location.href
 });
 
 var utils = {
