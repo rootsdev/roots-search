@@ -45,7 +45,7 @@ var utils = {
       'type': 'js_error',
       'data': {
         'title': exception.name,
-        'message': exception.message,
+        'message': exception.message + "\n\n" + exception.stack,
         'url': url
       }
     });
