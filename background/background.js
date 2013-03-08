@@ -31,7 +31,6 @@ chrome.extension.onRequest.addListener(function(request, sender) {
   }
   
   else if( request.type == "visit" ) {
-    console.log(request.data);
     _gaq.push(['_trackPageview', request.data]);
   }
   
