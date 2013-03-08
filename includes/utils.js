@@ -1,3 +1,8 @@
+chrome.extension.sendRequest({
+  'type': 'visit',
+  'data': window.location
+});
+
 var utils = {
   
   // Returns the hash values as a map {key:value}

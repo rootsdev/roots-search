@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "description": "Search across multiple genealogy sites for matching records.",
   "name": "RootsSearch",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "permissions": [ "tabs", "https://rs-errors.herokuapp.com/" ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "icons": { 
@@ -11,18 +11,7 @@
     "128": "images/icon-128.png" 
   },
   "background": { 
-    "scripts": [ 
-      "background.js",
-	    "includes/jquery.js", 
-      "includes/utils.js",
-      "builders/ancestry.js",
-      "builders/archives.js",
-      "builders/billiongraves.js",
-      "builders/familysearch.js",
-      "builders/findagrave.js",
-      "builders/geni.js",
-      "builders/werelate.js"    
-    ] 
+    "page": "background/background.html" 
   },
   "page_action": {
     "default_icon": "images/icon-16.png",

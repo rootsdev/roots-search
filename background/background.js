@@ -30,6 +30,10 @@ chrome.extension.onRequest.addListener(function(request, sender) {
     $.post('https://rs-errors.herokuapp.com', request.data);
   }
   
+  else if( request.type == "visit" ) {
+    _gaq.push(['_trackPageview']);
+  }
+  
 });
 
 function isValidDate(d) {
