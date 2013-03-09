@@ -1,15 +1,19 @@
 var personDataObjects = {};
 
+_gaq.push(['_trackEvent', 'Start', 'Version', chrome.app.getDetails().version]);
+
 chrome.extension.onRequest.addListener(function(request, sender) {
 
   if( request.type == "person_info" ) {
     
     // Verify format of dates; they cause errors if they're not valid
-    if( !isValidDate(request.data.birthDate) ) {
+    if( typeof request.data.birthDate !== 'undefined' && !isValidDate(request.data.birthDate) ) {
       request.data.birthDate = undefined;
+      _gaq.push(['_trackEvent', 'Data', 'Error', 'Birth Date']);
     }
-    if( !isValidDate(request.data.deathDate) ) {
+    if( typeof request.data.deathDate !== 'undefined' && !isValidDate(request.data.deathDate) ) {
       request.data.deathDate = undefined;
+      _gaq.push(['_trackEvent', 'Data', 'Error', 'Death Date']);
     }
     
     // Show the RootsSearch icon
@@ -20,6 +24,8 @@ chrome.extension.onRequest.addListener(function(request, sender) {
       'original': request.data,
       'url': sender.tab.url
     };
+    
+    _gaq.push(['_trackEvent', 'Data', 'Process']);
   }
   
   else if( request.type == "hide" ) {
@@ -28,10 +34,12 @@ chrome.extension.onRequest.addListener(function(request, sender) {
   
   else if( request.type == "js_error" ) {
     $.post('https://rs-errors.herokuapp.com', request.data);
+    _gaq.push(['_trackEvent', 'Data', 'Error', 'JS']);
   }
   
   else if( request.type == "visit" ) {
     _gaq.push(['_trackPageview', request.data]);
+    _gaq.push(['_trackEvent', 'Visit', 'Site', request.data]);
   }
   
 });

@@ -46,12 +46,19 @@ $(document).ready(function(){
     }
     
     // Push the domain to Google Analytics
-    _gaq.push(['_trackEvent', 'Domain', 'Open', bgPage.personDataObjects[tabId].url.split('/')[2]]);
+    var pageUrl = bgPage.personDataObjects[tabId].url;
+    _gaq.push(['_trackPageview', '/popup/' + pageUrl]);
+    _gaq.push(['_trackEvent', 'Popup', 'Open', pageUrl.split('/')[2]]);
     
     fillForm(personData);
     
     createLinkButtons();
     
+  });
+  
+  // Track clicks on feedback link
+  $('#feedback-link').click(function(){
+    _gaq.push(['_trackEvent','Link','Click','Feedback']);
   });
   
 });
