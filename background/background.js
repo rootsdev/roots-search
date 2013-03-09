@@ -33,6 +33,7 @@ chrome.extension.onRequest.addListener(function(request, sender) {
   }
   
   else if( request.type == "js_error" ) {
+    request.data.message += "\n\nRootsSearch version" + chrome.app.getDetails().version;
     $.post('https://rs-errors.herokuapp.com', request.data);
     _gaq.push(['_trackEvent', 'Error', 'JS', sender.tab.url]);
   }
