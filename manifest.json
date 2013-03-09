@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "description": "Search across multiple genealogy sites for matching records.",
   "name": "RootsSearch",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "permissions": [ "tabs", "https://rs-errors.herokuapp.com/" ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "icons": { 
@@ -21,7 +21,8 @@
   "content_scripts": [
     {
       "matches": [ 
-        "https://familysearch.org/*",
+        "https://familysearch.org/tree/*",
+        "https://familysearch.org/pal:/MM9.1.1/*",
         "http://www.werelate.org/wiki/Person:*",
         "http://search.ancestry.com/cgi-bin/sse.dll*",
         "http://search.ancestryinstitution.com/cgi-bin/sse.dll*",

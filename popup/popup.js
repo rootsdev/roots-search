@@ -58,7 +58,7 @@ $(document).ready(function(){
   
   // Track clicks on feedback link
   $('#feedback-link').click(function(){
-    _gaq.push(['_trackEvent','Link','Click','Feedback']);
+    _gaq.push(['_trackEvent','Links','Click','Feedback']);
   });
   
 });
@@ -89,18 +89,4 @@ function createLinkButtons() {
       _gaq.push(['_trackEvent', 'Links', 'Click', builderName]);
     });
   });
-}
-
-function buildLinks() {
-  
-  var searchLinks = bgPage.rs.executeLinkBuilders(getPersonData());
-  
-  // Remove ajax loader and add search links
-  $('#search-links').html('');
-  $.each(searchLinks, function(i, link){
-    $('<a target="_blank">').addClass('btn btn-info').html(link.text).attr('href', link.url).appendTo('#search-links').click(function(){
-      _gaq.push(['_trackEvent', 'Links', 'Click', link.text]);
-    });
-  });
-  
 }

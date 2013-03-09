@@ -9,11 +9,11 @@ chrome.extension.onRequest.addListener(function(request, sender) {
     // Verify format of dates; they cause errors if they're not valid
     if( typeof request.data.birthDate !== 'undefined' && !isValidDate(request.data.birthDate) ) {
       request.data.birthDate = undefined;
-      _gaq.push(['_trackEvent', 'Data', 'Error', 'Birth Date']);
+      _gaq.push(['_trackEvent', 'Error', 'Bad Birth Date', sender.tab.url]);
     }
     if( typeof request.data.deathDate !== 'undefined' && !isValidDate(request.data.deathDate) ) {
       request.data.deathDate = undefined;
-      _gaq.push(['_trackEvent', 'Data', 'Error', 'Death Date']);
+      _gaq.push(['_trackEvent', 'Error', 'Bad Death Date', sender.tab.url]);
     }
     
     // Show the RootsSearch icon
@@ -25,7 +25,7 @@ chrome.extension.onRequest.addListener(function(request, sender) {
       'url': sender.tab.url
     };
     
-    _gaq.push(['_trackEvent', 'Data', 'Process']);
+    _gaq.push(['_trackEvent', 'Data', 'Process', sender.tab.url]);
   }
   
   else if( request.type == "hide" ) {
@@ -34,12 +34,12 @@ chrome.extension.onRequest.addListener(function(request, sender) {
   
   else if( request.type == "js_error" ) {
     $.post('https://rs-errors.herokuapp.com', request.data);
-    _gaq.push(['_trackEvent', 'Data', 'Error', 'JS']);
+    _gaq.push(['_trackEvent', 'Error', 'JS', sender.tab.url]);
   }
   
   else if( request.type == "visit" ) {
-    _gaq.push(['_trackPageview', request.data]);
-    _gaq.push(['_trackEvent', 'Visit', 'Site', request.data]);
+    _gaq.push(['_trackPageview', sender.tab.url]);
+    _gaq.push(['_trackEvent', 'Visit', 'Record', sender.tab.url]);
   }
   
 });
