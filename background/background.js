@@ -1,3 +1,6 @@
+// Set the debug flag if the extension isn't installed via the webstore
+var debug = chrome.app.getDetails().update_url ? false : true;
+
 var personDataObjects = {};
 
 _gaq.push(['_trackEvent', 'Start', 'Version', chrome.app.getDetails().version]);
@@ -8,10 +11,16 @@ chrome.extension.onRequest.addListener(function(request, sender) {
     
     // Verify format of dates; they cause errors if they're not valid
     if( typeof request.data.birthDate !== 'undefined' && !isValidDate(request.data.birthDate) ) {
+      if( debug ) {
+        console.error('Bad birth date: ' + request.data.birthDate);
+      }
       request.data.birthDate = undefined;
       _gaq.push(['_trackEvent', 'Error', 'Bad Birth Date', sender.tab.url]);
     }
     if( typeof request.data.deathDate !== 'undefined' && !isValidDate(request.data.deathDate) ) {
+      if( debug ) {
+        console.error('Bad death date: ' + request.data.deathDate);
+      }
       request.data.deathDate = undefined;
       _gaq.push(['_trackEvent', 'Error', 'Bad Death Date', sender.tab.url]);
     }
@@ -35,6 +44,9 @@ chrome.extension.onRequest.addListener(function(request, sender) {
   else if( request.type == "js_error" ) {
     request.data.message += "\n\nRootsSearch version" + chrome.app.getDetails().version;
     $.post('https://rs-errors.herokuapp.com', request.data);
+    if( debug ) {
+      console.log(request.data);
+    }
     _gaq.push(['_trackEvent', 'Error', 'JS', sender.tab.url]);
   }
   
