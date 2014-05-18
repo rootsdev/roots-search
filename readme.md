@@ -21,7 +21,7 @@ Adding Support For More Websites
 
 There are two ways a site can be supported: a widget or a search link.
 
-## Widgets
+### Widgets
 
 Widgets pull information off of a web page and populate the search form.
 
