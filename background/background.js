@@ -64,15 +64,14 @@ function isValidDate(d) {
   return !isNaN(d.getTime());
 }
 
-// rs will be an object in the global namespace.
-var rs = {
-  
-  // List of link builders that have been registered
-  linkBuilders: {},
-  
-  // Function for register link builders
-  registerLinkBuilder: function(config) {
-    this.linkBuilders[config.text] = config.func;
-  }
-  
+// List of gen-search sites we're using. 
+// Key is the gensearch site name; value is the display name
+var sites = {
+  'ancestry': 'Ancestry',
+  'archives': 'Archives',
+  'billiongraves': 'BillionGraves',
+  'familysearch': 'FamilySearch',
+  'findagrave': 'Find-A-Grave',
+  'geni': 'Geni',
+  'werelate': 'WeRelate'
 };

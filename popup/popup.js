@@ -78,15 +78,11 @@ function getPersonData() {
 }
 
 function createLinkButtons() {
-  $.each(bgPage.rs.linkBuilders, function(builderName) {
-    $('<button>').addClass('btn btn-info').html(builderName).appendTo('#search-links').click(function(){
-      
-      // Execute the appropriate link builder
-      var searchUrl = bgPage.rs.linkBuilders[builderName](getPersonData());
-      
-      window.open(searchUrl);
-      
-      _gaq.push(['_trackEvent', 'Links', 'Click', builderName]);
+  $.each(bgPage.sites, function(gensearchSite, displayName) {
+    $('<button>').addClass('btn btn-info').html(displayName).appendTo('#search-links').click(function(){
+      var searchUrl = gensearch(gensearchSite, getPersonData());     
+      window.open(searchUrl);     
+      _gaq.push(['_trackEvent', 'Links', 'Click', displayName]);
     });
   });
 }
