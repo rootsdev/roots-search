@@ -135,6 +135,11 @@
   function getNameParts( recordData ) {
     var nameParts = [undefined, undefined];
     
+    // Short circuit if there is no name on the record
+    if(recordData.name.length === 0){
+      return nameParts;
+    }
+    
     var name = checkMultipleFields( 
       recordData.name[0], 
       [
