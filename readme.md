@@ -16,7 +16,33 @@ To install the latest development from source:
 1. Click the button labeled "Load unpacked extension...".
 1. Select the folder where you unzipped the files.
 
-Adding More Widgets and Search Links
+Adding Support For More Websites
 ----------------------------------
 
-Visit the [Wiki](https://github.com/rootsdev/roots-search/wiki) for more information on adding new widgets and search links.
+There are two ways a site can be supported: a widget or a search link.
+
+## Widgets
+
+Widgets pull information off of a web page and populate the search form.
+
+1. Create a copy of `widgets/widget-example.js` and rename it to something that is appropriate for your widget. Names usually include the name of the site which it operates on as well as the context. For example: `werelate-person-search.js`.
+1. Follow instructions in `widget-example.js` to:
+  1. Create a widget container
+  1. Gather data (through scraping or an API)
+  1. Create a [[person data]] object and pass it to the link builders
+  1. Process the link data to populate your widget container with search links
+1. Add your widget's js file and optional css file to `manifest.json`
+  1. Add an object to the `content_scripts` array for your widget (you might start by copying the object for another widget)
+  1. Add your js and css files to the js and css arrays
+  1. Configure the matches string so that the widget js an css files are only injected on sites where they operate
+  1. Add the same match strings from the previous step to the `permissions` array near the top of the manifest as well as the `matches` array for the first `content_scripts` object that injects the roots search controller and link builders
+  1. Read more about configuring [content scripts](http://developer.chrome.com/extensions/content_scripts.html)
+1. Reload the widget from the `chrome://extensions` page and test it
+1. Submit a pull request to share your new widget
+
+### Search links
+
+1. Submit a pull request to [gen-search](https://github.com/genealogysystems/gen-search).
+2. When the pull request has been accepted, add the site to the site list in [background.js](https://github.com/rootsdev/roots-search/blob/master/background/background.js) or create an issue to request that we update gensearch.
+
+__Additional search links will not be added until we implement an options page__
