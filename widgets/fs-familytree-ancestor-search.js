@@ -1,50 +1,19 @@
 (function(utils, undefined){
   
-  var activated = false;
-  
-  // Have the verify function called when the hash changes.
-  // We need the opportunity to build the search widget
-  // later if we don't start on the ancestor view
   $(document).ready(function(){
-    window.onhashchange = verify;
+    window.onhashchange = processHash;
     
-    verify()
+    processHash()
   });
   
-  // Builds the search widget if we're on the ancestor view
-  function verify() {
-    if ( utils.getHashParts()['view'] == 'ancestor' ) {
-      try {
-        setup();
-      } catch(e) {
-        utils.reportError(e, window.location.href);
-      }
-    }
-  }
-  
-  // Remove the widget if we navigate away from an 
-  // ancestor view on a hashchange (no page reload)
-  function teardown() {
-    activated = false;
-    window.onhashchange = verify;
+  // Called when the hash changes
+  function processHash() {    
+    
+    // Always hide the page action icon when the hash change
+    // If we navigated to a new person we need time to load their data
     chrome.extension.sendRequest({
       'type': 'hide'
     });
-  }
-
-  // Builds the search widget on the person page
-  function setup() {
-    activated = true;
-    
-    // Bind to hashchange event
-    window.onhashchange = processPersonHash;
-    
-    // Initial setup
-    processPersonHash();
-  }
-  
-  // Called when the person page loads and when the hash changes on the person page
-  function processPersonHash() {    
     
     // Remove previous search links and show the ajax loader
     var hashParts = utils.getHashParts();
@@ -61,22 +30,21 @@
         // Get person info; process it when both ajax calls return
         $.when(getPersonSummary(personId), getRelationships(personId,spouseId)).done(function(summary, relationships) {
           
-          // Get actual return data
-          summary = summary[0];
-          relationships = relationships[0];
-          var personData = normalizeData(summary, relationships);
-          
-          chrome.extension.sendRequest({
-            'type': 'person_info',
-            'data': personData
-          });
+          try {
+            // Get actual return data
+            summary = summary[0];
+            relationships = relationships[0];
+            var personData = normalizeData(summary, relationships);
+            
+            chrome.extension.sendRequest({
+              'type': 'person_info',
+              'data': personData
+            });
+          } catch(e) {
+            utils.reportError(e, window.location.href);
+          }
         }); 
       }
-    } 
-    
-    // If we're no longer viewing an ancestor, teardown the widget
-    else {
-      teardown();
     }
   }
   
