@@ -72,10 +72,10 @@
     var data = {
       'givenName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'nameForms', 0, 'givenPart']),
       'familyName': getSummaryInfo(summary, ['data', 'nameConclusion', 'details', 'nameForms', 0, 'familyPart']),
-      'birthPlace': getSummaryInfo(summary, ['data', 'birthConclusion', 'details', 'place', 'normalizedText']),
-      'birthDate': getSummaryInfo(summary, ['data', 'birthConclusion', 'details', 'date', 'normalizedText']),
-      'deathPlace': getSummaryInfo(summary, ['data', 'deathConclusion', 'details', 'place', 'normalizedText']),
-      'deathDate': getSummaryInfo(summary, ['data', 'deathConclusion', 'details', 'date', 'normalizedText']),
+      'birthPlace': getConclusionPlace(getSummaryInfo(summary, ['data', 'birthConclusion'])),
+      'birthDate': getConclusionDate(getSummaryInfo(summary, ['data', 'birthConclusion'])),
+      'deathPlace': getConclusionPlace(getSummaryInfo(summary, ['data', 'deathConclusion'])),
+      'deathDate': getConclusionDate(getSummaryInfo(summary, ['data', 'deathConclusion'])),
       'fatherGivenName': fatherName[0],
       'fatherFamilyName': fatherName[1],
       'motherGivenName': motherName[0],
@@ -91,6 +91,18 @@
     
     return data;
   }
+  
+  function getConclusionPlace(conclusion){
+    if(conclusion){
+      return getSummaryInfo(conclusion, ['details', 'place', 'normalizedText']) || getSummaryInfo(conclusion, ['details', 'place', 'originalText']);
+    }
+  };
+  
+  function getConclusionDate(conclusion){
+    if(conclusion){
+      return getSummaryInfo(conclusion, ['details', 'date', 'normalizedText']) || getSummaryInfo(conclusion, ['details', 'date', 'originalText']);
+    }
+  };
   
   // Iterate over a list of attributes which define the path
   // through an object to a desired piece of data. Stop when
