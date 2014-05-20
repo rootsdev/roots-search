@@ -34,12 +34,15 @@
             // Get actual return data
             summary = summary[0];
             relationships = relationships[0];
-            var personData = normalizeData(summary, relationships);
             
-            chrome.extension.sendRequest({
-              'type': 'person_info',
-              'data': personData
-            });
+            // Check to see if we have person data
+            if(summary.data){
+              var personData = normalizeData(summary, relationships);
+              chrome.extension.sendRequest({
+                'type': 'person_info',
+                'data': personData
+              });
+            }
           } catch(e) {
             utils.reportError(e, window.location.href);
           }
@@ -55,13 +58,13 @@
         spouseName = ['',''];
     
     // Process parents if there is a relationship
-    if( relationships.data.parents.length ) {
+    if(relationships.data && relationships.data.parents.length) {
       var fatherName = utils.splitName(relationships.data.parents[0].husband.name);
       var motherName = utils.splitName(relationships.data.parents[0].wife.name);
     }
     
     // Process spouse if there is a spouse relationship
-    if(relationships.data.spouses.length) {
+    if(relationships.data && relationships.data.spouses.length) {
       if(gender == 'MALE' && relationships.data.spouses[0].wife) {
         spouseName = utils.splitName(relationships.data.spouses[0].wife.name);
       } else if(gender == 'FEMALE' && relationships.data.spouses[0].husband) {
