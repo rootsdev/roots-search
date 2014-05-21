@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "description": "Search across multiple genealogy sites for matching records.",
   "name": "RootsSearch",
-  "version": "3.1.2",
+  "version": "3.1.1",
   "permissions": [ "tabs", "https://rs-errors.herokuapp.com/" ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "icons": { 
@@ -29,7 +29,9 @@
         "http://trees.ancestry.com/tree/*/person/*",
         "http://trees.ancestryinstitution.com/tree/*/person/*",
         "http://billiongraves.com/pages/record/*",
-        "http://www.findagrave.com/cgi-bin/fg.cgi*"
+        "http://www.findagrave.com/cgi-bin/fg.cgi*",
+        "*://www.genealogieonline.nl/*",
+        "*://www.openarch.nl/show*"
       ],
       "run_at": "document_end",
       "js": [ 
@@ -99,6 +101,24 @@
       "run_at": "document_end",
       "js": [
         "widgets/findagrave.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://www.genealogieonline.nl/*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/genealogieonline-person.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*.openarch.nl/show*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "widgets/openarch-record.js"
       ]
     }
   ]
