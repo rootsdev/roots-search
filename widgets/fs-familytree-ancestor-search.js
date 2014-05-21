@@ -26,7 +26,7 @@
       
       // If we have a personId and we are in the ancestor view, build the urls
       if(personId) {
-
+        
         // Get person info; process it when both ajax calls return
         $.when(getPersonSummary(personId), getRelationships(personId,spouseId)).done(function(summary, relationships) {
           
@@ -87,7 +87,7 @@
       'spouseFamilyName': spouseName[1]
     };
     
-    if(relationships.data && relationships.data.spouses[0].event) {
+    if(relationships.data.spouses[0].event) {
       data.marriageDate = relationships.data.spouses[0].event.standardDate;
       data.marriagePlace = relationships.data.spouses[0].event.standardPlace;
     }
