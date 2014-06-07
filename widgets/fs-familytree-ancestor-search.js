@@ -87,7 +87,7 @@
       'spouseFamilyName': spouseName[1]
     };
     
-    if(relationships.data.spouses[0].event) {
+    if(relationships.data && relationships.data.spouses[0].event) {
       data.marriageDate = relationships.data.spouses[0].event.standardDate;
       data.marriagePlace = relationships.data.spouses[0].event.standardPlace;
     }
