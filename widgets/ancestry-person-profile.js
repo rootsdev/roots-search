@@ -41,15 +41,15 @@
     // Birth
     var birth = events.birth || events.christening || null;
     if(birth) {
-      personData['birthDate'] = events.birth.date;
-      personData['birthPlace'] = events.birth.place;
+      personData['birthDate'] = birth.date;
+      personData['birthPlace'] = birth.place;
     }
     
     // Death
     var death = events.death || events.burial || null;
     if(death) {
-      personData['deathDate'] = events.death.date;
-      personData['deathPlace'] = events.death.place;
+      personData['deathDate'] = death.date;
+      personData['deathPlace'] = death.place;
     }
     
     // TODO get the marriage info
