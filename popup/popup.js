@@ -35,7 +35,7 @@ $(document).ready(function(){
   });
   
   // Get the id of the tab
-  chrome.tabs.query({active: true}, function(tabs){
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
     
     bgPage = chrome.extension.getBackgroundPage();
     tabId = tabs[0].id;
