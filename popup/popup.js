@@ -78,11 +78,13 @@ function getPersonData() {
 }
 
 function createLinkButtons() {
-  $.each(bgPage.sites, function(gensearchSite, displayName) {
-    $('<button>').addClass('btn btn-info').html(displayName).appendTo('#search-links').click(function(){
-      var searchUrl = gensearch(gensearchSite, getPersonData());     
-      window.open(searchUrl);     
-      _gaq.push(['_trackEvent', 'Links', 'Click', displayName]);
-    });
+  $.each(bgPage.sites, function(i, site) {
+    if(site.enabled){
+      $('<button>').addClass('btn btn-info').html(site.name).appendTo('#search-links').click(function(){
+        var searchUrl = gensearch(site.key, getPersonData());     
+        window.open(searchUrl);     
+        _gaq.push(['_trackEvent', 'Links', 'Click', site.name]);
+      });
+    }
   });
 }

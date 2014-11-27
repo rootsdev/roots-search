@@ -3,13 +3,18 @@
   "description": "Search across multiple genealogy sites for matching records.",
   "name": "RootsSearch",
   "version": "3.2.4",
-  "permissions": [ "tabs", "https://rs-errors.herokuapp.com/" ],
+  "permissions": [ 
+    "tabs",
+    "storage",
+    "https://rs-errors.herokuapp.com/" 
+  ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "icons": { 
     "16": "images/icon-16.png",
     "48": "images/icon-48.png",
     "128": "images/icon-128.png" 
   },
+  "options_page": "options/options.html",
   "background": { 
     "page": "background/background.html" 
   },

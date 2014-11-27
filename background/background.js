@@ -3,6 +3,8 @@ var debug = chrome.app.getDetails().update_url ? false : true;
 
 var personDataObjects = {};
 
+loadSiteSettings();
+
 _gaq.push(['_trackEvent', 'Start', 'Version', chrome.app.getDetails().version]);
 
 chrome.extension.onRequest.addListener(function(request, sender) {
@@ -62,16 +64,41 @@ function isValidDate(d) {
   if ( Object.prototype.toString.call(d) !== "[object Date]" )
     return false;
   return !isNaN(d.getTime());
-}
+};
 
-// List of gen-search sites we're using. 
-// Key is the gensearch site name; value is the display name
-var sites = {
-  'ancestry': 'Ancestry',
-  'archives': 'Archives',
-  'billiongraves': 'BillionGraves',
-  'familysearch': 'FamilySearch',
-  'findagrave': 'Find-A-Grave',
-  'geni': 'Geni',
-  'werelate': 'WeRelate'
+/**
+ * Load the site settings from local storage
+ * and update default site settings
+ */
+function loadSiteSettings(){
+
+  var siteKeys = [];
+  $.each(sites, function(i, site){
+    siteKeys.push(getSiteSettingsKey(site.key));
+  });
+
+  chrome.storage.local.get(siteKeys, function(savedSettings){    
+    $.each(sites, function(i, site){
+      var settingsKey = getSiteSettingsKey(site.key);
+      if(savedSettings[settingsKey]){
+        site = $.extend({}, site, savedSettings[settingsKey]); 
+      }
+    });   
+  });
+
+};
+
+function getSiteSettingsKey(siteKey){
+  return 'site-' + siteKey;
+};
+
+/**
+ * Save site settings, but not the name.
+ */
+function saveSiteSettings(site){
+  var save = {};
+  save[getSiteSettingsKey(site.key)] = {
+    enabled: site.enabled
+  };
+  chrome.storage.local.set(save);
 };
