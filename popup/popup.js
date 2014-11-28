@@ -60,6 +60,9 @@ $(document).ready(function(){
   $('#feedback-link').click(function(){
     _gaq.push(['_trackEvent','Links','Click','Feedback']);
   });
+  $('#options-link').click(function(){
+    _gaq.push(['_trackEvent','Links','Click','Options']);
+  });
   
 });
 
