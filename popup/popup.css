@@ -42,16 +42,10 @@ body {
   width: 100%;
 }
 
-#feedback {
-  text-align: right;
-}
-
-#feedback a {
-  font-size: .8em;
+a {
   color: #777;
-  text-decoration: none;
 }
 
-#feedback a:hover {
-  text-decoration: underline;
+#options {
+  text-align: right;
 }
