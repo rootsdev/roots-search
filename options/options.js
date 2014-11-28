@@ -16,7 +16,6 @@ function creatSiteDOM(site){
       input = $('<input type="checkbox">').prependTo(label).attr('checked', site.enabled);
   input.change(function(){
     site.enabled = $(this).is(':checked');
-    console.log('changed');
     background.saveSiteSettings(site);
   });
   return dom;

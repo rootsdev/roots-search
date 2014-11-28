@@ -27,8 +27,8 @@ var sites = [
   },
   {
     key: 'findmypast',
-    name: 'findmypast',
-    enabled: false
+    name: 'Findmypast',
+    enabled: true,
   },
   {
     key: 'fold3',
@@ -48,12 +48,12 @@ var sites = [
   {
     key: 'geni',
     name: 'Geni',
-    enabled: true
+    enabled: false
   },
   {
     key: 'myheritage',
     name: 'MyHeritage',
-    enabled: false
+    enabled: true
   },
   {
     key: 'newspapers',
@@ -68,7 +68,7 @@ var sites = [
   {
     key: 'werelate',
     name: 'WeRelate.org',
-    enabled: true
+    enabled: false
   },
   {
     key: 'worldvitalrecords',
