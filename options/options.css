@@ -1,0 +1,36 @@
+body {
+  font-family: arial;
+}
+
+.container {
+  width: 600px;
+}
+
+p {
+  margin: 15px 0;
+}
+
+#title {
+  text-align: center;
+  color: #F9F9F9;
+  font-family: 'Allerta', serif;
+  letter-spacing: 3px;
+  margin-bottom: .25em;
+  margin-top: 0;
+  padding: .25em 0;
+  background-color: #49AFCD;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.rs-disabled {
+  color: #aaa;
+}
+
+.site-url {
+  margin-left: 20px;
+}
+
+.rs-disabled .site-url a {
+  color: #BDD8EF;
+}
