@@ -38,7 +38,5 @@ Widgets pull information off of a web page and populate the search form.
 
 ### Search links
 
-1. Submit a pull request to [gen-search](https://github.com/genealogysystems/gen-search).
-2. When the pull request has been accepted, add the site to the site list in [background.js](https://github.com/rootsdev/roots-search/blob/master/background/background.js) or create an issue to request that we update gensearch.
-
-__Additional search links will not be added until we implement an options page__
+1. Create an issue or submit a pull request to [gen-search](https://github.com/genealogysystems/gen-search).
+2. When the pull request has been accepted, add the site to the site list in [background.js](https://github.com/rootsdev/roots-search/blob/master/background/site.js) or create an issue to request that we update roots-search with the new version of gen-search.
