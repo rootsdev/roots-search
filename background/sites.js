@@ -19,6 +19,12 @@ var sites = [
     enabled: true
   },
   {
+    key: 'chroniclingamerica',
+    name: 'Chronicling America',
+    url: 'http://chroniclingamerica.loc.gov',
+    enabled: false
+  },
+  {
     key: 'familysearch',
     name: 'FamilySearch',
     url: 'https://familysearch.org',
@@ -31,10 +37,16 @@ var sites = [
     enabled: true
   },
   {
-    key: 'findmypast',
-    name: 'Findmypast',
+    key: 'findmypast.co.uk',
+    name: 'Findmypast.co.uk',
     url: 'http://www.findmypast.co.uk',
     enabled: true,
+  },
+  {
+    key: 'findmypast.com',
+    name: 'Findmypast.com',
+    url: 'http://www.findmypast.com',
+    enabled: false,
   },
   {
     key: 'fold3',
@@ -55,9 +67,21 @@ var sites = [
     enabled: false
   },
   {
+    key: 'geneanet.en',
+    name: 'Geneanet.org',
+    url: 'http://en.geneanet.org',
+    enabled: false
+  },
+  {
     key: 'geni',
     name: 'Geni',
     url: 'http://www.geni.com',
+    enabled: false
+  },
+  {
+    key: 'google',
+    name: 'Google',
+    url: 'https://www.google.com',
     enabled: false
   },
   {
@@ -76,6 +100,12 @@ var sites = [
     key: 'openarchives',
     name: 'Open Archives',
     url: 'https://www.openarch.nl',
+    enabled: false
+  },
+  {
+    key: 'usgenweb',
+    name: 'USGenWeb',
+    url: 'http://www.usgwarchives.net',
     enabled: false
   },
   {
