@@ -6,7 +6,7 @@
    * Setup the widget when the page loads.
    */
   $(document).ready(function(){
-    if( $('#record-header').length == 1) {
+    if( $('#recordData').length == 1) {
       try {
         setup();
       } catch(e) {
@@ -24,7 +24,7 @@
     
     var personData = {};
     var recordData = {};
-    $('.p_resultTable tr').each(function(){
+    $('#recordData .table tr').each(function(){
       var row = $(this);
       // Take the row label, trim leading and trailing whitespace, 
       // lowercase it, and remove the trailing ":".
