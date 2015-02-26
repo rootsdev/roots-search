@@ -28,6 +28,7 @@
       "matches": [ 
         "https://familysearch.org/tree/*",
         "https://familysearch.org/pal:/MM9.1.1/*",
+        "https://familysearch.org/ark:/61903/1:1:*",
         "http://www.werelate.org/wiki/Person:*",
         "http://search.ancestry.com/cgi-bin/sse.dll*",
         "http://search.ancestryinstitution.com/cgi-bin/sse.dll*",
@@ -46,7 +47,8 @@
     },
     {
       "matches": [
-        "https://familysearch.org/pal:/MM9.1.1/*"
+        "https://familysearch.org/pal:/MM9.1.1/*",
+        "https://familysearch.org/ark:/61903/1:1:*"
       ],
       "run_at": "document_end",
       "js": [
