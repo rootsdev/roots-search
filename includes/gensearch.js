@@ -5,6 +5,7 @@ var utils = _dereq_('./utils.js'),
 // We have to explicitly list the sites, instead of
 // dynamically loading, so that browserify can see them
 var sites = {
+  'americanancestors': _dereq_('./sites/americanancestors.js'),
   'ancestry': _dereq_('./sites/ancestry.js'),
   'archives': _dereq_('./sites/archives.js'),
   'billiongraves': _dereq_('./sites/billiongraves.js'),
@@ -17,13 +18,17 @@ var sites = {
   'geneanet.en': _dereq_('./sites/geneanet.en.js'),
   'genealogieonline': _dereq_('./sites/genealogieonline.js'),
   'genealogybank': _dereq_('./sites/genealogybank.js'),
+  'gengophers': _dereq_('./sites/gengophers.js'),
   'geni': _dereq_('./sites/geni.js'),
   'google': _dereq_('./sites/google.js'),
+  'nlatrove': _dereq_('./sites/nlatrove.js'),
+  'mocavo': _dereq_('./sites/mocavo.js'),
   'myheritage': _dereq_('./sites/myheritage.js'),
   'newspapers': _dereq_('./sites/newspapers.js'),
   'openarchives': _dereq_('./sites/openarchives.js'),
   'usgenweb': _dereq_('./sites/usgenweb.js'),
   'werelate': _dereq_('./sites/werelate.js'),
+  'wikitree': _dereq_('./sites/wikitree.js'),
   'worldvitalrecords': _dereq_('./sites/worldvitalrecords.js')
 };
 
@@ -59,7 +64,39 @@ search.config = function(site, siteConfig){
   }
 };
 
-},{"./sites/ancestry.js":2,"./sites/archives.js":3,"./sites/billiongraves.js":4,"./sites/chroniclingamerica.js":5,"./sites/familysearch.js":6,"./sites/findagrave.js":7,"./sites/findmypast.co.uk.js":8,"./sites/findmypast.com.js":9,"./sites/fold3.js":11,"./sites/genealogieonline.js":12,"./sites/genealogybank.js":13,"./sites/geneanet.en.js":14,"./sites/geni.js":15,"./sites/google.js":16,"./sites/myheritage.js":17,"./sites/newspapers.js":18,"./sites/openarchives.js":19,"./sites/usgenweb.js":20,"./sites/werelate.js":21,"./sites/worldvitalrecords.js":22,"./utils.js":23}],2:[function(_dereq_,module,exports){
+},{"./sites/americanancestors.js":2,"./sites/ancestry.js":3,"./sites/archives.js":4,"./sites/billiongraves.js":5,"./sites/chroniclingamerica.js":6,"./sites/familysearch.js":7,"./sites/findagrave.js":8,"./sites/findmypast.co.uk.js":9,"./sites/findmypast.com.js":10,"./sites/fold3.js":12,"./sites/genealogieonline.js":13,"./sites/genealogybank.js":14,"./sites/geneanet.en.js":15,"./sites/gengophers.js":16,"./sites/geni.js":17,"./sites/google.js":18,"./sites/mocavo.js":19,"./sites/myheritage.js":20,"./sites/newspapers.js":21,"./sites/nlatrove.js":22,"./sites/openarchives.js":23,"./sites/usgenweb.js":24,"./sites/werelate.js":25,"./sites/wikitree.js":26,"./sites/worldvitalrecords.js":27,"./utils.js":28}],2:[function(_dereq_,module,exports){
+var utils = _dereq_('../utils.js');
+
+module.exports = function(config, data){
+
+  var url = 'http://www.americanancestors.org/search/database-search?';
+  var params = {};
+  
+  if(data.givenName){
+    params.firstname = data.givenName;
+  }
+  
+  if(data.familyName){
+    params.lastname = data.familyName;
+  }
+  
+  if(data.birthDate){
+    params.fromyear = utils.getYear(data.birthDate);
+  }
+  
+  if(data.deathDate){
+    params.toyear = utils.getYear(data.deathDate);
+  }
+  
+  if(data.birthPlace){
+    params.location = data.birthPlace;
+  } else if(data.deathPlace){
+    params.location = data.deathPlace;
+  }
+  
+  return url + utils.queryString(params);
+};
+},{"../utils.js":28}],3:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -104,7 +141,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],3:[function(_dereq_,module,exports){
+},{"../utils.js":28}],4:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -138,7 +175,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],4:[function(_dereq_,module,exports){
+},{"../utils.js":28}],5:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -171,7 +208,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],5:[function(_dereq_,module,exports){
+},{"../utils.js":28}],6:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -201,7 +238,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],6:[function(_dereq_,module,exports){
+},{"../utils.js":28}],7:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
     
 var defaultConfig = {
@@ -290,7 +327,7 @@ function addQueryParam(query, queryParam, paramValue) {
   }
   return query;
 };
-},{"../utils.js":23}],7:[function(_dereq_,module,exports){
+},{"../utils.js":28}],8:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -319,7 +356,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],8:[function(_dereq_,module,exports){
+},{"../utils.js":28}],9:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js'),
     fmp = _dereq_('./findmypast.js');
 
@@ -333,7 +370,7 @@ module.exports = function(config, data){
   config = utils.defaults(config, defaultConfig);
   return fmp(config, data, 'co.uk');
 };
-},{"../utils.js":23,"./findmypast.js":10}],9:[function(_dereq_,module,exports){
+},{"../utils.js":28,"./findmypast.js":11}],10:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js'),
     fmp = _dereq_('./findmypast.js');
 
@@ -347,7 +384,7 @@ module.exports = function(config, data){
   config = utils.defaults(config, defaultConfig);
   return fmp(config, data, 'com');
 };
-},{"../utils.js":23,"./findmypast.js":10}],10:[function(_dereq_,module,exports){
+},{"../utils.js":28,"./findmypast.js":11}],11:[function(_dereq_,module,exports){
 /**
  * This is not a site config. It is a common util for
  * the findmypast sites that only differ in the TLD.
@@ -419,7 +456,7 @@ module.exports = function(config, data, tld){
   return baseUrl + query;
   
 };
-},{"../utils.js":23}],11:[function(_dereq_,module,exports){
+},{"../utils.js":28}],12:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -445,7 +482,7 @@ module.exports = function(config, data){
   
 };
 
-},{"../utils.js":23}],12:[function(_dereq_,module,exports){
+},{"../utils.js":28}],13:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -502,7 +539,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],13:[function(_dereq_,module,exports){
+},{"../utils.js":28}],14:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -565,7 +602,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],14:[function(_dereq_,module,exports){
+},{"../utils.js":28}],15:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -606,7 +643,27 @@ module.exports = function(config, data){
   return url + query;
   
 };
-},{"../utils.js":23}],15:[function(_dereq_,module,exports){
+},{"../utils.js":28}],16:[function(_dereq_,module,exports){
+var utils = _dereq_('../utils.js');
+
+module.exports = function(config, data){
+
+  var url = 'https://www.gengophers.com/#/search?';
+  
+  var params = {
+    page: 1
+  };
+  
+  if(data.givenName) {
+    params.given = data.givenName;
+  }
+  if(data.familyName) {
+    params.surname = data.familyName
+  }
+  
+  return url + utils.queryString(params);;
+};
+},{"../utils.js":28}],17:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -632,7 +689,7 @@ module.exports = function(config, data){
   
 };
 
-},{"../utils.js":23}],16:[function(_dereq_,module,exports){
+},{"../utils.js":28}],18:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -653,7 +710,23 @@ module.exports = function(config, data){
   
   return url += encodeURIComponent(searchWords.join(' '));
 };
-},{"../utils.js":23}],17:[function(_dereq_,module,exports){
+},{"../utils.js":28}],19:[function(_dereq_,module,exports){
+var utils = _dereq_('../utils.js');
+
+module.exports = function(config, data){
+
+  var url = 'http://www.mocavo.com/search?start=0';
+
+  if(data.givenName) {
+    url += '&plus_fname%5B%5D=' + encodeURIComponent(data.givenName);
+  }
+  if(data.familyName) {
+    url += '&plus_lname%5B%5D=' + encodeURIComponent(data.familyName);
+  }
+  
+  return url;
+};
+},{"../utils.js":28}],20:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -752,7 +825,7 @@ function fixSpace(str){
   return str.replace(/ /g, '%2F3');
 }
 
-},{"../utils.js":23}],18:[function(_dereq_,module,exports){
+},{"../utils.js":28}],21:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -822,7 +895,24 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],19:[function(_dereq_,module,exports){
+},{"../utils.js":28}],22:[function(_dereq_,module,exports){
+var utils = _dereq_('../utils.js');
+
+module.exports = function(config, data){
+
+  var url = 'http://trove.nla.gov.au/newspaper/result?q=';
+
+  var parts = [];
+  if(data.givenName) {
+    parts.push(data.givenName);
+  }
+  if(data.familyName) {
+    parts.push(data.familyName)
+  }
+  
+  return url + encodeURIComponent(parts.join(' '));
+};
+},{"../utils.js":28}],23:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -847,7 +937,7 @@ module.exports = function(config, data){
   return url + query;
 
 };
-},{"../utils.js":23}],20:[function(_dereq_,module,exports){
+},{"../utils.js":28}],24:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 module.exports = function(config, data){
@@ -869,7 +959,7 @@ module.exports = function(config, data){
   return url + query;
 
 };
-},{"../utils.js":23}],21:[function(_dereq_,module,exports){
+},{"../utils.js":28}],25:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -918,7 +1008,25 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],22:[function(_dereq_,module,exports){
+},{"../utils.js":28}],26:[function(_dereq_,module,exports){
+var utils = _dereq_('../utils.js');
+
+module.exports = function(config, data){
+
+  var url = 'https://www.google.com/search?q=';
+  
+  var searchWords = ['site:wikitree.com'];
+  
+  if(data.givenName) {
+    searchWords.push(data.givenName);
+  }
+  if(data.familyName) {
+    searchWords.push(data.familyName);
+  }
+  
+  return url += encodeURIComponent(searchWords.join(' '));
+};
+},{"../utils.js":28}],27:[function(_dereq_,module,exports){
 var utils = _dereq_('../utils.js');
 
 var defaultConfig = {
@@ -958,7 +1066,7 @@ module.exports = function(config, data){
 
 };
 
-},{"../utils.js":23}],23:[function(_dereq_,module,exports){
+},{"../utils.js":28}],28:[function(_dereq_,module,exports){
 var utils = {};
 
 /**
@@ -987,6 +1095,19 @@ utils.addQueryParam = function(query, name, value){
     query += '&' + name + '=' + encodeURIComponent(value);
   }
   return query;
+};
+
+/**
+ * Take in a map of param names and values
+ * and return an encoded query string
+ * without the leading '?'
+ */
+utils.queryString = function(params){
+  var parts = [];
+  utils.each(params, function(val, key){
+    parts.push(key + '=' + encodeURIComponent(val));
+  });
+  return parts.join('&');
 };
 
 /**

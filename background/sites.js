@@ -1,6 +1,12 @@
 // List of gen-search sites we're using
 var sites = [
   {
+    key: 'americanancestors',
+    name: 'American Ancestors',
+    url: 'http://www.americanancestors.org/index.aspx',
+    enabled: false
+  },
+  {
     key: 'ancestry',
     name: 'Ancestry.com',
     url: 'http://www.ancestry.com',
@@ -10,7 +16,7 @@ var sites = [
     key: 'archives',
     name: 'Archives',
     url: 'http://www.archives.com',
-    enabled: true
+    enabled: false
   },
   {
     key: 'billiongraves',
@@ -73,6 +79,12 @@ var sites = [
     enabled: false
   },
   {
+    key: 'gengophers',
+    name: 'Genealogy Gophers',
+    url: 'https://www.gengophers.com',
+    enabled: false
+  },
+  {
     key: 'geni',
     name: 'Geni',
     url: 'http://www.geni.com',
@@ -85,6 +97,12 @@ var sites = [
     enabled: false
   },
   {
+    key: 'mocavo',
+    name: 'Mocavo',
+    url: 'http://www.mocavo.com/',
+    enabled: true
+  },
+  {
     key: 'myheritage',
     name: 'MyHeritage',
     url: 'http://www.myheritage.com',
@@ -94,6 +112,12 @@ var sites = [
     key: 'newspapers',
     name: 'Newspapers',
     url: 'http://www.newspapers.com',
+    enabled: false
+  },
+  {
+    key: 'nlatrove',
+    name: 'NLA Trove',
+    url: 'http://trove.nla.gov.au/',
     enabled: false
   },
   {
@@ -112,6 +136,12 @@ var sites = [
     key: 'werelate',
     name: 'WeRelate.org',
     url: 'http://www.werelate.org',
+    enabled: false
+  },
+  {
+    key: 'wikitree',
+    name: 'WikiTree',
+    url: 'http://www.wikitree.com/',
     enabled: false
   },
   {
