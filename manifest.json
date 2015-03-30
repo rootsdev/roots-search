@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "description": "Search across multiple genealogy sites for matching records.",
   "name": "RootsSearch",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "permissions": [ 
     "tabs",
     "storage",
@@ -42,90 +42,8 @@
       "run_at": "document_end",
       "js": [ 
         "includes/jquery.js", 
-        "includes/utils.js"
-      ]
-    },
-    {
-      "matches": [
-        "https://familysearch.org/pal:/MM9.1.1/*",
-        "https://familysearch.org/ark:/61903/1:1:*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/fs-record-search.js"
-      ]
-    },
-    {
-      "matches": [
-        "https://familysearch.org/tree/*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/fs-familytree-ancestor-search.js"
-      ]
-    },
-    {
-      "matches": [
-        "http://www.werelate.org/wiki/Person:*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/werelate-person-search.js"
-      ]
-    },
-    {
-      "matches": [
-        "http://search.ancestry.com/cgi-bin/sse.dll*",
-        "http://search.ancestryinstitution.com/cgi-bin/sse.dll*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/ancestry-record-search.js"
-      ]
-    },
-    {
-      "matches": [
-        "http://trees.ancestry.com/tree/*/person/*",
-        "http://trees.ancestryinstitution.com/tree/*/person/*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/ancestry-person-profile.js"
-      ]
-    },
-    {
-      "matches": [
-        "http://billiongraves.com/pages/record/*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/billion-graves.js"
-      ]
-    },{
-      "matches": [
-        "http://www.findagrave.com/cgi-bin/fg.cgi*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/findagrave.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://www.genealogieonline.nl/*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/genealogieonline-person.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://*.openarch.nl/show*"
-      ],
-      "run_at": "document_end",
-      "js": [
-        "widgets/openarch-record.js"
+        "includes/genscrape.js",
+        "includes/scraper.js"
       ]
     }
   ]
