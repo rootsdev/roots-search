@@ -81,7 +81,7 @@ function loadSiteSettings(){
     $.each(sites, function(i, site){
       var settingsKey = getSiteSettingsKey(site.key);
       if(savedSettings[settingsKey]){
-        site = $.extend({}, site, savedSettings[settingsKey]); 
+        $.extend(site, savedSettings[settingsKey]); 
       }
     });   
   });
