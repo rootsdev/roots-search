@@ -1,8 +1,3 @@
-chrome.extension.sendRequest({
-  'type': 'visit',
-  'data': window.location.href
-});
-
 genscrape()
   .on('data', function(data){
     chrome.extension.sendRequest({
