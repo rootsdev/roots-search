@@ -5,15 +5,20 @@ chrome.extension.sendRequest({
 
 genscrape()
   .on('data', function(data){
+    console.log('data');
     chrome.extension.sendRequest({
       'type': 'person_info',
       'data': data
     });
   })
   .on('noData', function(){
+    console.log('no data');
     chrome.extension.sendRequest({
       'type': 'hide'
     });
+  })
+  .on('noMatch', function(){
+    console.log('no match');
   })
   .on('error', function(e){
     chrome.extension.sendRequest({

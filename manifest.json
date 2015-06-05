@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "description": "Search across multiple genealogy sites for matching records.",
   "name": "RootsSearch",
-  "version": "3.6.2",
+  "version": "3.7.0",
   "permissions": [ 
     "tabs",
     "storage",
@@ -26,23 +26,12 @@
   "content_scripts": [
     {
       "matches": [ 
-        "https://familysearch.org/tree/*",
-        "https://familysearch.org/pal:/MM9.1.1/*",
-        "https://familysearch.org/ark:/61903/1:1:*",
-        "http://www.werelate.org/wiki/Person:*",
-        "http://search.ancestry.com/cgi-bin/sse.dll*",
-        "http://search.ancestryinstitution.com/cgi-bin/sse.dll*",
-        "http://trees.ancestry.com/tree/*/person/*",
-        "http://trees.ancestryinstitution.com/tree/*/person/*",
-        "http://billiongraves.com/pages/record/*",
-        "http://www.findagrave.com/cgi-bin/fg.cgi*",
-        "*://www.genealogieonline.nl/*",
-        "*://www.openarch.nl/show*"
+        "<all_urls>"
       ],
       "run_at": "document_end",
       "js": [ 
         "includes/jquery.js", 
-        "includes/genscrape.js",
+        "includes/genscrape.0.1.2.js",
         "includes/scraper.js"
       ]
     }
